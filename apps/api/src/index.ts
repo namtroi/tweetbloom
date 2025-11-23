@@ -8,8 +8,13 @@ import dotenv from 'dotenv';
 import { authMiddleware } from './middleware/auth';
 import chatRoutes from './routes/chat';
 import notesRoutes from './routes/notes';
+import { validateEnv } from './config/env';
 
+// Load environment variables
 dotenv.config();
+
+// Validate environment variables at startup (fail fast)
+const env = validateEnv();
 
 const app = Fastify({
     logger: true,
