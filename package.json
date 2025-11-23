@@ -5,13 +5,17 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test:chat": "tsx scripts/test-chat.ts"
   },
   "devDependencies": {
-    "turbo": "latest",
+    "@supabase/supabase-js": "^2.84.0",
+    "@types/node": "latest",
+    "dotenv": "^17.2.3",
     "prettier": "latest",
-    "typescript": "latest",
-    "@types/node": "latest"
+    "tsx": "^4.20.6",
+    "turbo": "latest",
+    "typescript": "latest"
   },
   "packageManager": "pnpm@8.15.0"
 }

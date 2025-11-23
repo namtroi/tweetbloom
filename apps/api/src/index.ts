@@ -6,6 +6,8 @@ import { serializerCompiler, validatorCompiler, ZodTypeProvider, jsonSchemaTrans
 import { z } from 'zod';
 import dotenv from 'dotenv';
 import { authMiddleware } from './middleware/auth';
+import chatRoutes from './routes/chat';
+import notesRoutes from './routes/notes';
 
 dotenv.config();
 
@@ -71,7 +73,9 @@ const start = async () => {
             return { status: 'ok', timestamp: new Date().toISOString() };
         });
 
-
+        // Register Routes
+        await app.register(chatRoutes, { prefix: '/api/chat' });
+        await app.register(notesRoutes, { prefix: '/api/notes' });
 
         await app.ready();
 

@@ -5,12 +5,25 @@ import { z } from 'zod';
 export const ChatRequestSchema = z.object({
     prompt: z.string().max(150, "Prompt must be 150 words or less").min(1, "Prompt is required"),
     chatId: z.string().uuid().optional(),
-    aiTool: z.enum(['GEMINI', 'CHATGPT', 'GROK']).optional()
+    aiTool: z.enum(['GEMINI', 'CHATGPT', 'GROK']).optional(),
+    override_ai_check: z.boolean().optional().default(false)
+});
+
+export const ChatResponseSchema = z.object({
+    status: z.enum(['success', 'suggestion', 'error']),
+    content: z.string().optional(), // The AI response or the suggestion
+    reasoning: z.string().optional(), // Why it was flagged as bad
+    chatId: z.string().uuid(),
+    messageId: z.string().uuid().optional()
 });
 
 export const ChatEvaluateRequestSchema = z.object({
-    chatId: z.string().uuid(),
-    messageId: z.string().uuid()
+    chatId: z.string().uuid()
+});
+
+export const ChatEvaluateResponseSchema = z.object({
+    suggestion: z.string(),
+    reasoning: z.string()
 });
 
 // --- Note Schemas ---
@@ -30,8 +43,18 @@ export const SummarizeChatToNoteSchema = z.object({
     chatId: z.string().uuid()
 });
 
+export const SummarizeChatToNoteResponseSchema = z.object({
+    noteId: z.string().uuid(),
+    content: z.string()
+});
+
 export const SummarizeNotesSchema = z.object({
     noteIds: z.array(z.string().uuid()).max(7, "Max 7 notes").min(2, "Select at least 2 notes")
+});
+
+export const SummarizeNotesResponseSchema = z.object({
+    noteId: z.string().uuid(),
+    content: z.string()
 });
 
 // --- Tag Schemas ---
@@ -70,11 +93,15 @@ export const UpdateChatSchema = z.object({
 
 // Export types inferred from Zod schemas
 export type ChatRequest = z.infer<typeof ChatRequestSchema>;
+export type ChatResponse = z.infer<typeof ChatResponseSchema>;
 export type ChatEvaluateRequest = z.infer<typeof ChatEvaluateRequestSchema>;
+export type ChatEvaluateResponse = z.infer<typeof ChatEvaluateResponseSchema>;
 export type CreateNoteRequest = z.infer<typeof CreateNoteSchema>;
 export type UpdateNoteRequest = z.infer<typeof UpdateNoteSchema>;
 export type SummarizeChatToNoteRequest = z.infer<typeof SummarizeChatToNoteSchema>;
+export type SummarizeChatToNoteResponse = z.infer<typeof SummarizeChatToNoteResponseSchema>;
 export type SummarizeNotesRequest = z.infer<typeof SummarizeNotesSchema>;
+export type SummarizeNotesResponse = z.infer<typeof SummarizeNotesResponseSchema>;
 export type CreateTagRequest = z.infer<typeof CreateTagSchema>;
 export type UpdateTagRequest = z.infer<typeof UpdateTagSchema>;
 export type UpdateSettingsRequest = z.infer<typeof UpdateSettingsSchema>;
