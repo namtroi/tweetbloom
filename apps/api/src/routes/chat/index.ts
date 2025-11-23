@@ -5,6 +5,7 @@ import { authMiddleware } from '../../middleware/auth';
 import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
 import { AIProviderFactory } from '../../services/ai/providers';
+import { RATE_LIMITS } from '../../config/rate-limits';
 import evaluateRoutes from './evaluate';
 
 const chatRoutes: FastifyPluginAsync = async (fastify) => {
@@ -14,6 +15,12 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
 
     app.post('/', {
         preHandler: [authMiddleware],
+        config: {
+            rateLimit: {
+                max: RATE_LIMITS.chat.max,
+                timeWindow: RATE_LIMITS.chat.timeWindow
+            }
+        },
         schema: {
             body: ChatRequestSchema,
             response: {

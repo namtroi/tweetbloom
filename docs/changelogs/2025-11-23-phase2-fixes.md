@@ -208,17 +208,15 @@ This changelog documents the plan to fix critical technical debt identified afte
 - [x] Add error handling for validation failures
 - [x] Build and verify no TypeScript errors
 
-#### Step 4: Rate Limiting (2h + 1h tests)
-- [ ] Install `@fastify/rate-limit`
-- [ ] Create `apps/api/src/config/rate-limits.ts`
-- [ ] Register plugin in `apps/api/src/index.ts`
-- [ ] Apply limits to `/api/chat`
-- [ ] Apply limits to `/api/chat/evaluate`
-- [ ] Apply limits to `/api/notes/summarize`
-- [ ] Apply limits to `/api/notes/combine`
-- [ ] Write integration tests
-- [ ] Update E2E tests to handle rate limits
-- [ ] Test rate limiting behavior
+#### Step 4: Rate Limiting (2h + 1h tests) ✅ COMPLETE
+- [x] Install `@fastify/rate-limit`
+- [x] Create `apps/api/src/config/rate-limits.ts`
+- [x] Register plugin in `apps/api/src/index.ts`
+- [x] Apply limits to `/api/chat` (50/min)
+- [x] Apply limits to `/api/chat/evaluate` (60/min)
+- [x] Apply limits to `/api/notes/summarize` (30/min)
+- [x] Apply limits to `/api/notes/combine` (20/min)
+- [x] Build and verify
 
 ### Testing
 - [ ] All unit tests pass

@@ -4,12 +4,19 @@ import { SummarizeChatToNoteSchema, SummarizeChatToNoteResponseSchema, NoteRowSc
 import { authMiddleware } from '../../middleware/auth';
 import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
+import { RATE_LIMITS } from '../../config/rate-limits';
 
 const summarizeRoutes: FastifyPluginAsync = async (fastify) => {
     const app = fastify.withTypeProvider<ZodTypeProvider>();
 
     app.post('/summarize', {
         preHandler: [authMiddleware],
+        config: {
+            rateLimit: {
+                max: RATE_LIMITS.summarize.max,
+                timeWindow: RATE_LIMITS.summarize.timeWindow
+            }
+        },
         schema: {
             body: SummarizeChatToNoteSchema,
             response: {
