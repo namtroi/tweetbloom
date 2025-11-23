@@ -1,11 +1,10 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { ChatRequestSchema, ChatResponseSchema } from '@tweetbloom/types';
+import { ChatRequestSchema, ChatResponseSchema, ChatRowSchema, MessageRowSchema } from '@tweetbloom/types';
 import { authMiddleware } from '../../middleware/auth';
 import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
 import { AIProviderFactory } from '../../services/ai/providers';
-
 import evaluateRoutes from './evaluate';
 
 const chatRoutes: FastifyPluginAsync = async (fastify) => {
@@ -35,7 +34,7 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
         if (!chatId) {
             const { data: newChat, error: chatError } = await supabase
                 .from('chats')
-                // @ts-ignore
+                // @ts-expect-error - Supabase generated types don't properly infer insert return types. We validate with ChatRowSchema below.
                 .insert({
                     user_id: user.id,
                     title: prompt.substring(0, 50) + (prompt.length > 50 ? '...' : ''),
@@ -48,13 +47,16 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
                 req.log.error(chatError, 'Failed to create chat');
                 throw new Error('Failed to create chat');
             }
-            chatId = (newChat as any).id;
+            
+            // Validate and extract chat data
+            const validatedChat = ChatRowSchema.parse(newChat);
+            chatId = validatedChat.id;
         }
 
         // 2. Save User Message
         const { data: userMsg, error: msgError } = await supabase
             .from('messages')
-            // @ts-ignore
+            // @ts-expect-error - Supabase generated types don't properly infer insert return types. We validate with MessageRowSchema below.
             .insert({
                 chat_id: chatId!,
                 role: 'user',
@@ -64,10 +66,13 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
             .select()
             .single();
 
-        if (msgError) {
-            req.log.error(msgError, 'Failed to save message');
-            throw new Error('Failed to save message');
+        if (msgError || !userMsg) {
+            req.log.error(msgError, 'Failed to save user message');
+            throw new Error('Failed to save user message');
         }
+        
+        // Validate user message
+        const validatedUserMsg = MessageRowSchema.parse(userMsg);
 
         // 3. Bloom Buddy Evaluation
         if (!override_ai_check) {
@@ -79,7 +84,7 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
                     content: evaluation.suggestion,
                     reasoning: evaluation.reasoning,
                     chatId: chatId!,
-                    messageId: (userMsg as any)?.id
+                    messageId: validatedUserMsg.id
                 };
             }
         }
@@ -93,7 +98,7 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
         // 5. Save Assistant Message
         const { data: assistantMsg, error: aiMsgError } = await supabase
             .from('messages')
-            // @ts-ignore
+            // @ts-expect-error - Supabase generated types don't properly infer insert return types. We validate with MessageRowSchema below.
             .insert({
                 chat_id: chatId!,
                 role: 'assistant',
@@ -103,16 +108,19 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
             .select()
             .single();
 
-        if (aiMsgError) {
-            req.log.error(aiMsgError, 'Failed to save AI response');
-            throw new Error('Failed to save AI response');
+        if (aiMsgError || !assistantMsg) {
+            req.log.error(aiMsgError, 'Failed to save AI message');
+            throw new Error('Failed to save AI message');
         }
+        
+        // Validate AI message
+        const validatedAiMsg = MessageRowSchema.parse(assistantMsg);
 
         return {
             status: 'success' as const,
             content: aiResponse,
             chatId: chatId!,
-            messageId: (assistantMsg as any)?.id
+            messageId: validatedAiMsg.id
         };
     });
 };

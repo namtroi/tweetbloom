@@ -112,4 +112,5 @@ export type UpdateChatRequest = z.infer<typeof UpdateChatSchema>;
 
 export * from './supabase-types';
 export * from './validators';
+export * from './db-schemas';
 
