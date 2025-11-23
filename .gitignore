@@ -33,3 +33,6 @@ Thumbs.db
 
 # Supabase
 supabase/.temp
+
+# TypeScript Build Info
+*.tsbuildinfo

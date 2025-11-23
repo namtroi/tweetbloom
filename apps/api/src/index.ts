@@ -2,8 +2,10 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
+import { serializerCompiler, validatorCompiler, ZodTypeProvider, jsonSchemaTransform } from 'fastify-type-provider-zod';
+import { z } from 'zod';
 import dotenv from 'dotenv';
+import { authMiddleware } from './middleware/auth';
 
 dotenv.config();
 
@@ -11,37 +13,68 @@ const app = Fastify({
     logger: true,
 }).withTypeProvider<ZodTypeProvider>();
 
-// Register Plugins
-app.register(cors, {
-    origin: '*', // TODO: Lock this down in production
-});
-
-app.register(swagger, {
-    openapi: {
-        info: {
-            title: 'TweetBloom API',
-            description: 'API for TweetBloom AI Prompt Optimizer',
-            version: '1.0.0',
-        },
-        servers: [],
-    },
-});
-
-app.register(swaggerUi, {
-    routePrefix: '/docs',
-});
-
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-// Health Check
-app.get('/health', async () => {
-    return { status: 'ok', timestamp: new Date().toISOString() };
-});
-
-// Start Server
+// Register Plugins and Routes inside start to ensure order
 const start = async () => {
     try {
+        // Register CORS
+        await app.register(cors, {
+            origin: '*', // TODO: Lock this down in production
+        });
+
+        // Register Swagger
+        await app.register(swagger, {
+            openapi: {
+                openapi: '3.0.0',
+                info: {
+                    title: 'TweetBloom API',
+                    description: 'API for TweetBloom AI Prompt Optimizer',
+                    version: '1.0.0',
+                },
+                servers: [],
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            transform: (arg: any) => {
+                const { schema, url, route, swaggerObject } = arg;
+                if (url.startsWith('/docs')) {
+                    return { schema, url };
+                }
+                try {
+                    return jsonSchemaTransform({ schema, url, route, swaggerObject });
+                } catch (err) {
+                    console.error('Transform error for', url, err);
+                    return { schema, url };
+                }
+            },
+        });
+
+        // Register Swagger UI
+        await app.register(swaggerUi, {
+            routePrefix: '/docs',
+        });
+
+        // Health Check
+        app.get('/health', {
+            schema: {
+                description: 'Check server health',
+                tags: ['System'],
+                response: {
+                    200: z.object({
+                        status: z.string(),
+                        timestamp: z.string(),
+                    }),
+                },
+            },
+        }, async () => {
+            return { status: 'ok', timestamp: new Date().toISOString() };
+        });
+
+
+
+        await app.ready();
+
         const port = 3001;
         await app.listen({ port, host: '0.0.0.0' });
         console.log(`Server running at http://localhost:${port}`);

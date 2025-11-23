@@ -9,7 +9,7 @@
     },
     "devDependencies": {
         "typescript": "latest",
-        "zod": "latest",
+        "zod": "^4.1.12",
         "supabase": "latest"
     },
     "dependencies": {
