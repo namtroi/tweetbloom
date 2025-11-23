@@ -123,6 +123,26 @@ async function main() {
     } else {
         console.log('Skipping Test 4 because Test 2 did not return a chatId');
     }
+
+    // Test 5: Summarize Chat (Smart Notes)
+    console.log('\n--- Test 5: Summarize Chat (Smart Notes) ---');
+    if (chatId) {
+        const res5 = await fetch('http://localhost:3001/api/notes/summarize', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify({
+                chatId: chatId
+            })
+        });
+        const data5 = await res5.json();
+        console.log('Status:', res5.status);
+        console.log('Response:', JSON.stringify(data5, null, 2));
+    } else {
+        console.log('Skipping Test 5 because Test 2 did not return a chatId');
+    }
 }
 
 main();

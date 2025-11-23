@@ -91,4 +91,30 @@ export class BloomBuddyService {
             };
         }
     }
+
+    async summarizeChat(history: { role: string; content: string }[]): Promise<string> {
+        const provider = this.providerFactory.getProvider("gemini");
+
+        const historyText = history.map((msg) => `${msg.role}: ${msg.content}`).join("\n");
+
+        const systemPrompt = `
+      You are Bloom Buddy, an expert summarizer.
+      Summarize the following chat conversation into a concise note.
+      The summary should capture the key takeaways, decisions, or information exchanged.
+      Format it as a short paragraph or bullet points.
+
+      Chat History:
+      ${historyText}
+
+      Return ONLY the summary text. Do not include any JSON or other formatting.
+    `;
+
+        try {
+            const response = await provider.generateResponse(systemPrompt);
+            return response.trim();
+        } catch (error) {
+            console.error("Bloom Buddy summarization failed:", error);
+            return "Failed to summarize chat.";
+        }
+    }
 }
