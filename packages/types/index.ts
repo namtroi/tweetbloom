@@ -18,8 +18,12 @@ export const ChatResponseSchema = z.object({
 });
 
 export const ChatEvaluateRequestSchema = z.object({
-    chatId: z.string().uuid(),
-    messageId: z.string().uuid()
+    chatId: z.string().uuid()
+});
+
+export const ChatEvaluateResponseSchema = z.object({
+    suggestion: z.string(),
+    reasoning: z.string()
 });
 
 // --- Note Schemas ---
@@ -81,6 +85,7 @@ export const UpdateChatSchema = z.object({
 export type ChatRequest = z.infer<typeof ChatRequestSchema>;
 export type ChatResponse = z.infer<typeof ChatResponseSchema>;
 export type ChatEvaluateRequest = z.infer<typeof ChatEvaluateRequestSchema>;
+export type ChatEvaluateResponse = z.infer<typeof ChatEvaluateResponseSchema>;
 export type CreateNoteRequest = z.infer<typeof CreateNoteSchema>;
 export type UpdateNoteRequest = z.infer<typeof UpdateNoteSchema>;
 export type SummarizeChatToNoteRequest = z.infer<typeof SummarizeChatToNoteSchema>;

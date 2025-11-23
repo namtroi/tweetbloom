@@ -6,8 +6,12 @@ import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
 import { AIProviderFactory } from '../../services/ai/providers';
 
+import evaluateRoutes from './evaluate';
+
 const chatRoutes: FastifyPluginAsync = async (fastify) => {
     const app = fastify.withTypeProvider<ZodTypeProvider>();
+
+    await app.register(evaluateRoutes);
 
     app.post('/', {
         preHandler: [authMiddleware],

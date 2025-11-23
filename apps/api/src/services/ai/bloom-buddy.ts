@@ -56,4 +56,39 @@ export class BloomBuddyService {
             return { status: "good", reasoning: "Evaluation failed, proceeding." };
         }
     }
+
+    async suggestNextPrompt(history: { role: string; content: string }[]): Promise<{ suggestion: string; reasoning: string }> {
+        const provider = this.providerFactory.getProvider("gemini");
+
+        const historyText = history.map((msg) => `${msg.role}: ${msg.content}`).join("\n");
+
+        const systemPrompt = `
+      You are Bloom Buddy, a conversation strategist.
+      Analyze the following chat history and suggest the single best next prompt for the USER to ask.
+      The suggestion should deepen the conversation or explore a logical next step.
+
+      Chat History:
+      ${historyText}
+
+      Return a JSON object with the following structure:
+      {
+        "suggestion": "The suggested next prompt for the user",
+        "reasoning": "Why this is a good next step"
+      }
+
+      Do not include markdown formatting like \`\`\`json. Just the raw JSON string.
+    `;
+
+        try {
+            const response = await provider.generateResponse(systemPrompt);
+            const cleanResponse = response.replace(/```json/g, "").replace(/```/g, "").trim();
+            return JSON.parse(cleanResponse) as { suggestion: string; reasoning: string };
+        } catch (error) {
+            console.error("Bloom Buddy suggestion failed:", error);
+            return {
+                suggestion: "Tell me more about that.",
+                reasoning: "Fallback suggestion due to error."
+            };
+        }
+    }
 }

@@ -101,6 +101,28 @@ async function main() {
     const data3 = await res3.json();
     console.log('Status:', res3.status);
     console.log('Response:', JSON.stringify(data3, null, 2));
+
+    // Test 4: Evaluate Chat (What Next?)
+    console.log('\n--- Test 4: Evaluate Chat (What Next?) ---');
+    // Use chatId from Test 2 (Good Prompt)
+    const chatId = (data2 as any).chatId;
+    if (chatId) {
+        const res4 = await fetch('http://localhost:3001/api/chat/evaluate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify({
+                chatId: chatId
+            })
+        });
+        const data4 = await res4.json();
+        console.log('Status:', res4.status);
+        console.log('Response:', JSON.stringify(data4, null, 2));
+    } else {
+        console.log('Skipping Test 4 because Test 2 did not return a chatId');
+    }
 }
 
 main();
