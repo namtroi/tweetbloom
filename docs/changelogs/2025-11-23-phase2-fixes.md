@@ -188,15 +188,16 @@ This changelog documents the plan to fix critical technical debt identified afte
 - [x] Write unit tests
 - [x] Verify server fails fast on missing vars
 
-#### Step 2: Word Count Validation (2-3h + 1h tests)
-- [ ] Create `packages/types/validators.ts`
-- [ ] Implement `wordCount()` function
-- [ ] Implement `contentValidator`
-- [ ] Implement `validateContent()` helper
-- [ ] Update all affected schemas
-- [ ] Write comprehensive unit tests
-- [ ] Update E2E tests
-- [ ] Test edge cases
+#### Step 2: Word Count Validation (2-3h + 1h tests) ✅ COMPLETE
+- [x] Create `packages/types/validators.ts`
+- [x] Implement `wordCount()` and `contentValidator`
+- [x] Update all schemas using `.max(150)`:
+   - [x] `ChatRequestSchema`
+   - [x] `CreateNoteSchema`
+   - [x] `UpdateNoteSchema`
+- [x] Add tests for word counting edge cases
+- [x] Update E2E tests
+- [x] Build and verify
 
 #### Step 3: Type Safety (2-3h + 1h tests)
 - [ ] Create `packages/types/db-schemas.ts`

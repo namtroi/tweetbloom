@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import { contentValidator } from './validators';
 
 // --- Chat Schemas ---
 
 export const ChatRequestSchema = z.object({
-    prompt: z.string().max(150, "Prompt must be 150 words or less").min(1, "Prompt is required"),
+    prompt: contentValidator,
     chatId: z.string().uuid().optional(),
     aiTool: z.enum(['GEMINI', 'CHATGPT', 'GROK']).optional(),
     override_ai_check: z.boolean().optional().default(false)
@@ -29,12 +30,12 @@ export const ChatEvaluateResponseSchema = z.object({
 // --- Note Schemas ---
 
 export const CreateNoteSchema = z.object({
-    content: z.string().max(150, "Content must be 150 words or less").min(1, "Content is required"),
+    content: contentValidator,
     parentId: z.string().uuid().nullable().optional()
 });
 
 export const UpdateNoteSchema = z.object({
-    content: z.string().max(150).optional(),
+    content: contentValidator.optional(),
     parentId: z.string().uuid().nullable().optional(),
     tagIds: z.array(z.string().uuid()).optional()
 });
@@ -110,3 +111,5 @@ export type UpdateFolderRequest = z.infer<typeof UpdateFolderSchema>;
 export type UpdateChatRequest = z.infer<typeof UpdateChatSchema>;
 
 export * from './supabase-types';
+export * from './validators';
+

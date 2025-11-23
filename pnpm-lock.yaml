@@ -161,12 +161,18 @@ importers:
         specifier: latest
         version: 4.1.12
     devDependencies:
+      '@vitest/ui':
+        specifier: ^4.0.13
+        version: 4.0.13(vitest@4.0.13)
       supabase:
         specifier: latest
         version: 2.58.5
       typescript:
         specifier: latest
         version: 5.9.3
+      vitest:
+        specifier: ^4.0.13
+        version: 4.0.13(@types/node@24.10.1)(@vitest/ui@4.0.13)(tsx@4.20.6)
 
 packages:
 
