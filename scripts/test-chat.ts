@@ -143,6 +143,30 @@ async function main() {
     } else {
         console.log('Skipping Test 5 because Test 2 did not return a chatId');
     }
+
+    // Test 6: Combine Notes
+    console.log('\n--- Test 6: Combine Notes ---');
+    // Create 2 dummy notes
+    const { data: note1 } = await supabase.from('notes').insert({ user_id: authData.user.id, content: 'Note 1: React is a UI library.' }).select().single();
+    const { data: note2 } = await supabase.from('notes').insert({ user_id: authData.user.id, content: 'Note 2: Vue is a progressive framework.' }).select().single();
+
+    if (note1 && note2) {
+        const res6 = await fetch('http://localhost:3001/api/notes/combine', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify({
+                noteIds: [note1.id, note2.id]
+            })
+        });
+        const data6 = await res6.json();
+        console.log('Status:', res6.status);
+        console.log('Response:', JSON.stringify(data6, null, 2));
+    } else {
+        console.log('Skipping Test 6 because failed to create dummy notes');
+    }
 }
 
 main();

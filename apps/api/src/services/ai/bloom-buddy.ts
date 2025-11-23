@@ -117,4 +117,29 @@ export class BloomBuddyService {
             return "Failed to summarize chat.";
         }
     }
+
+    async combineNotes(notes: string[]): Promise<string> {
+        const provider = this.providerFactory.getProvider("gemini");
+
+        const notesText = notes.map((note, index) => `Note ${index + 1}:\n${note}`).join("\n\n");
+
+        const systemPrompt = `
+      You are Bloom Buddy, an expert synthesizer.
+      Combine the following notes into a single, coherent master note.
+      Identify common themes, merge related information, and create a structured summary.
+      
+      Notes:
+      ${notesText}
+
+      Return ONLY the combined note text. Do not include any JSON or other formatting.
+    `;
+
+        try {
+            const response = await provider.generateResponse(systemPrompt);
+            return response.trim();
+        } catch (error) {
+            console.error("Bloom Buddy note combination failed:", error);
+            return "Failed to combine notes.";
+        }
+    }
 }

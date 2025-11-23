@@ -52,6 +52,11 @@ export const SummarizeNotesSchema = z.object({
     noteIds: z.array(z.string().uuid()).max(7, "Max 7 notes").min(2, "Select at least 2 notes")
 });
 
+export const SummarizeNotesResponseSchema = z.object({
+    noteId: z.string().uuid(),
+    content: z.string()
+});
+
 // --- Tag Schemas ---
 
 export const CreateTagSchema = z.object({
@@ -96,6 +101,7 @@ export type UpdateNoteRequest = z.infer<typeof UpdateNoteSchema>;
 export type SummarizeChatToNoteRequest = z.infer<typeof SummarizeChatToNoteSchema>;
 export type SummarizeChatToNoteResponse = z.infer<typeof SummarizeChatToNoteResponseSchema>;
 export type SummarizeNotesRequest = z.infer<typeof SummarizeNotesSchema>;
+export type SummarizeNotesResponse = z.infer<typeof SummarizeNotesResponseSchema>;
 export type CreateTagRequest = z.infer<typeof CreateTagSchema>;
 export type UpdateTagRequest = z.infer<typeof UpdateTagSchema>;
 export type UpdateSettingsRequest = z.infer<typeof UpdateSettingsSchema>;
