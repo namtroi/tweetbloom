@@ -51,10 +51,11 @@ This is the master checklist for building TweetBloom. It is based on the finaliz
     - [ ] Implement `POST /api/summarize/notes` (Combine Notes).
 
 ## Phase 3: Frontend Foundation (`apps/web`)
+> **Detailed Plan**: See `docs/09-phase-3-detailed-plan.md`
 
 - [ ] **Project Setup**
-    - [ ] Initialize Next.js (App Router).
-    - [ ] Install `TailwindCSS` and `shadcn/ui`.
+    - [x] Initialize Next.js (App Router).
+    - [ ] Install `TailwindCSS` and `shadcn/ui` (Theme: **Green**).
     - [ ] Install `Framer Motion` and `lucide-react`.
     - [ ] Configure `supabase-js` client (Auth).
     - [ ] Configure `TanStack Query` (React Query) and `Zustand`.
