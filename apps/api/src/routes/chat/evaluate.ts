@@ -24,7 +24,7 @@ const evaluateRoutes: FastifyPluginAsync = async (fastify) => {
             }
         }
     }, async (req, reply) => {
-        const { chatId } = req.body;
+        const { chatId, messageId } = req.body;
         const supabase = createUserClient(req.jwt!);
 
         // Fetch last 10 messages
@@ -43,9 +43,11 @@ const evaluateRoutes: FastifyPluginAsync = async (fastify) => {
         // Reverse to get chronological order
         const history = (messages || []).reverse() as { role: string; content: string }[];
 
-        const suggestion = await BloomBuddyService.getInstance().suggestNextPrompt(history);
+        // Note: messageId is accepted but not currently used
+        // It could be used in the future to provide context-specific suggestions
+        const result = await BloomBuddyService.getInstance().suggestNextPrompt(history);
 
-        return suggestion;
+        return result;
     });
 };
 

@@ -6,6 +6,7 @@ import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
 import { AIProviderFactory } from '../../services/ai/providers';
 import { RATE_LIMITS } from '../../config/rate-limits';
+import { truncateToLimits, getTruncationStats } from '../../utils/text-truncation';
 import evaluateRoutes from './evaluate';
 
 const chatRoutes: FastifyPluginAsync = async (fastify) => {
@@ -97,10 +98,30 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
         }
 
         // 4. Execute AI (if good or overridden)
-        const providerType = selectedAiTool.toLowerCase() as any;
+        // Map database AI tool names to provider types
+        const providerTypeMap: Record<'GEMINI' | 'CHATGPT' | 'GROK', 'gemini' | 'openai' | 'grok'> = {
+            'GEMINI': 'gemini',
+            'CHATGPT': 'openai',
+            'GROK': 'grok'
+        };
+        
+        const providerType = providerTypeMap[selectedAiTool];
         const provider = AIProviderFactory.getInstance().getProvider(providerType);
 
-        const aiResponse = await provider.generateResponse(prompt);
+        let aiResponse = await provider.generateResponse(prompt);
+        
+        // Apply truncation as safety net (in case AI doesn't comply)
+        const originalResponse = aiResponse;
+        aiResponse = truncateToLimits(aiResponse, 150, 1200);
+        
+        // Log if truncation occurred (for monitoring AI compliance)
+        if (originalResponse !== aiResponse) {
+            const stats = getTruncationStats(originalResponse, aiResponse);
+            req.log.warn({
+                provider: selectedAiTool,
+                ...stats
+            }, 'AI response truncated - provider not complying with limits');
+        }
 
         // 5. Save Assistant Message
         const { data: assistantMsg, error: aiMsgError } = await supabase

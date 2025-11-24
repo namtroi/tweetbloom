@@ -18,13 +18,15 @@ export const ChatResponseSchema = z.object({
     messageId: z.string().uuid().optional()
 });
 
+
 export const ChatEvaluateRequestSchema = z.object({
-    chatId: z.string().uuid()
+    chatId: z.string().uuid(),
+    messageId: z.string().uuid() // Added to match API specs
 });
 
 export const ChatEvaluateResponseSchema = z.object({
-    suggestion: z.string(),
-    reasoning: z.string()
+    new_prompt: z.string(), // Changed from 'suggestion' to match API specs
+    reasoning: z.string().optional() // Made optional, useful for debugging
 });
 
 // --- Note Schemas ---

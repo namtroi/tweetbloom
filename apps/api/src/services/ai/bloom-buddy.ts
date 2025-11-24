@@ -57,7 +57,7 @@ export class BloomBuddyService {
         }
     }
 
-    async suggestNextPrompt(history: { role: string; content: string }[]): Promise<{ suggestion: string; reasoning: string }> {
+    async suggestNextPrompt(history: { role: string; content: string }[]): Promise<{ new_prompt: string; reasoning?: string }> {
         const provider = this.providerFactory.getProvider("gemini");
 
         const historyText = history.map((msg) => `${msg.role}: ${msg.content}`).join("\n");
@@ -72,7 +72,7 @@ export class BloomBuddyService {
 
       Return a JSON object with the following structure:
       {
-        "suggestion": "The suggested next prompt for the user",
+        "new_prompt": "The suggested next prompt for the user",
         "reasoning": "Why this is a good next step"
       }
 
@@ -82,11 +82,11 @@ export class BloomBuddyService {
         try {
             const response = await provider.generateResponse(systemPrompt);
             const cleanResponse = response.replace(/```json/g, "").replace(/```/g, "").trim();
-            return JSON.parse(cleanResponse) as { suggestion: string; reasoning: string };
+            return JSON.parse(cleanResponse) as { new_prompt: string; reasoning?: string };
         } catch (error) {
             console.error("Bloom Buddy suggestion failed:", error);
             return {
-                suggestion: "Tell me more about that.",
+                new_prompt: "Tell me more about that.",
                 reasoning: "Fallback suggestion due to error."
             };
         }

@@ -13,7 +13,21 @@ export class GeminiProvider implements AIProvider {
     }
 
     async generateResponse(prompt: string, context?: any): Promise<string> {
-        const model = this.client.getGenerativeModel({ model: this.modelName });
+        const model = this.client.getGenerativeModel({ 
+            model: this.modelName,
+            systemInstruction: `You are a helpful AI assistant for TweetBloom.
+
+CRITICAL RESPONSE RULES (MUST FOLLOW):
+- Keep ALL responses under 150 words
+- Keep ALL responses under 1200 characters
+- Be concise, clear, and direct
+- Prioritize the most important information
+- If the topic is complex, focus on key points only
+- NEVER exceed these limits under any circumstances
+
+These limits are strict requirements for mobile-first experience.`
+        });
+        
         const result = await model.generateContent(prompt);
         const response = await result.response;
         return response.text();
