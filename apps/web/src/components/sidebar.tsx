@@ -19,14 +19,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   MessageSquarePlus,
   LayoutDashboard,
-  Settings,
   LogOut,
   Menu,
-  Folder,
-  MessageSquare,
 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
+import { ChatList } from "@/components/sidebar/chat-list"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -42,49 +40,32 @@ export function Sidebar({ className }: SidebarProps) {
   }
 
   return (
-    <div className={cn("pb-12", className)}>
-      <div className="space-y-4 py-4">
-        <div className="px-3 py-2">
+    <div className={cn("pb-12 flex flex-col h-full", className)}>
+      <div className="space-y-4 py-4 flex-1 flex flex-col min-h-0">
+        <div className="px-3 py-2 flex-shrink-0">
           <div className="mb-2 px-4 text-lg font-semibold tracking-tight text-primary flex items-center gap-2">
             <LayoutDashboard className="h-5 w-5" />
             TweetBloom
           </div>
           <div className="space-y-1">
             <Button
-              variant="secondary"
-              className="w-full justify-start"
-              onClick={() => router.push("/")}
+              variant="default"
+              className="w-full justify-start shadow-sm bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={() => router.push("/chat")}
             >
               <MessageSquarePlus className="mr-2 h-4 w-4" />
               New Chat
             </Button>
           </div>
         </div>
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            Library
+        
+        <div className="px-3 py-2 flex-1 flex flex-col min-h-0 overflow-hidden">
+          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight flex-shrink-0">
+            History
           </h2>
-          <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
-              <Folder className="mr-2 h-4 w-4" />
-              Folders
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <MessageSquare className="mr-2 h-4 w-4" />
-              Recent Chats
-            </Button>
-          </div>
-        </div>
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            Settings
-          </h2>
-          <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
-              <Settings className="mr-2 h-4 w-4" />
-              Preferences
-            </Button>
-          </div>
+          <ScrollArea className="flex-1 -mx-2 px-2">
+             <ChatList />
+          </ScrollArea>
         </div>
       </div>
       <div className="absolute bottom-4 left-4 right-4">
@@ -123,8 +104,15 @@ export function Sidebar({ className }: SidebarProps) {
 }
 
 export function MobileSidebar() {
+  const [open, setOpen] = React.useState(false)
+  const pathname = usePathname()
+
+  React.useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="md:hidden">
           <Menu className="h-5 w-5" />

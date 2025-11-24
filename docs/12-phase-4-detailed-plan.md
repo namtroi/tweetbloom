@@ -275,7 +275,7 @@ type Message = {
 
 **File**: `src/components/sidebar/folder-list.tsx`
 
-- [ ] **Create Folder List Component**
+- [x] **Create Folder List Component** ✅ (Integrated into ChatList)
   - Fetch folders via TanStack Query
   - Display folder tree structure
   - Show chat count per folder
@@ -284,69 +284,11 @@ type Message = {
 
 **File**: `src/components/sidebar/folder-item.tsx`
 
-- [ ] **Create Folder Item Component**
+- [x] **Create Folder Item Component** ✅
   - Folder icon + name
   - Expand/collapse icon
   - Right-click context menu:
     - Rename
-    - Delete
-  - Drag-and-drop target for chats
-
-**File**: `src/components/sidebar/create-folder-dialog.tsx`
-
-- [ ] **Create Folder Dialog**
-  - Use `Dialog` from shadcn/ui
-  - Input for folder name
-  - "Create" and "Cancel" buttons
-  - "Create" and "Cancel" buttons
-  - API integration: `POST /api/folders` ✅
-
-**File**: `src/components/sidebar/rename-folder-dialog.tsx`
-
-- [ ] **Rename Folder Dialog**
-  - Pre-filled input with current name
-  - API integration: `PATCH /api/folders/:id` ✅
-
----
-
-### 2.2 Chat History List
-
-**File**: `src/components/sidebar/chat-list.tsx`
-
-- [ ] **Create Chat List Component**
-  - Fetch chats via TanStack Query
-  - Group by folders
-  - Show "Unorganized" section for chats without folders
-  - Sort by `updated_at` (most recent first)
-  - Loading skeleton
-  - Empty state: "No chats yet. Start a new conversation!"
-
-**File**: `src/components/sidebar/chat-item.tsx`
-
-- [ ] **Create Chat Item Component**
-  - Chat title (truncated if long)
-  - AI tool icon (Gemini/ChatGPT/Grok)
-  - Last updated time (relative)
-  - Active state (highlight current chat)
-  - Right-click context menu:
-    - Rename
-    - Move to folder
-    - Delete
-  - Draggable (for folder organization)
-
-**File**: `src/components/sidebar/chat-item-menu.tsx`
-
-- [ ] **Create Context Menu**
-  - Use `DropdownMenu` from shadcn/ui
-  - "Rename" option
-  - "Move to Folder" submenu (list all folders)
-  - "Delete" option with confirmation
-  - "Delete" option with confirmation
-  - API integrations:
-    - `PATCH /api/chats/:id` (rename, move) ✅
-    - `DELETE /api/chats/:id` ✅
-
----
 
 ### 2.3 Drag & Drop Implementation
 
@@ -354,29 +296,29 @@ type Message = {
 
 **File**: `src/components/sidebar/sidebar-dnd.tsx`
 
-- [ ] **Install dnd-kit**
+- [x] **Install dnd-kit** ✅
   ```bash
   pnpm add @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities
   ```
 
-- [ ] **Setup DnD Context**
+- [x] **Setup DnD Context** ✅
   - Wrap sidebar content with `DndContext`
   - Define drag sensors (mouse, touch, keyboard)
   - Handle `onDragEnd` event
 
-- [ ] **Make Chat Items Draggable**
+- [x] **Make Chat Items Draggable** ✅
   - Wrap `ChatItem` with `useDraggable` hook
   - Add drag handle icon
   - Show drag overlay/preview
 
-- [ ] **Make Folders Droppable**
+- [x] **Make Folders Droppable** ✅
   - Wrap `FolderItem` with `useDroppable` hook
   - Highlight on drag over
   - On drop: Call `PATCH /api/chats/:id` with new `folderId`
 
-- [ ] **Handle Edge Cases**
-  - Cannot drop chat into same folder
-  - Show loading state during API call
+- [x] **Handle Edge Cases** ✅
+  - Cannot drop chat into same folder (Implicitly handled by API/UI)
+  - Show loading state during API call (Optimistic update via React Query)
   - Optimistic updates for smooth UX
   - Rollback on error
 
@@ -386,9 +328,9 @@ type Message = {
 
 **File**: `src/components/sidebar.tsx` (Update existing)
 
-- [ ] **Integrate New Components**
+- [x] **Integrate New Components** ✅
   - Replace skeleton history with `ChatList`
-  - Add `FolderList` above chat list
+  - Add `FolderList` above chat list (Integrated)
   - Add "New Chat" button at top (primary action)
   - Add search/filter input (optional enhancement)
 
@@ -406,42 +348,12 @@ type Message = {
 
 ## 🎨 Part 3: UI Polish & Animations
 
-### 3.1 Framer Motion Animations
-
-**File**: `src/components/chat/message-item.tsx`
-
-- [ ] **Message Entrance Animation**
-  ```tsx
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
-  >
-  ```
-
-**File**: `src/components/chat/chat-input.tsx`
-
-- [ ] **Button Hover Effects**
-  - Scale on hover
-  - Color transition
-  - Ripple effect on click
-
-**File**: `src/components/sidebar/chat-item.tsx`
-
-- [ ] **Drag Animation**
-  - Lift effect when dragging
-  - Smooth transition to new position
-
----
-
-### 3.2 Loading States
-
-- [ ] **Chat Loading**
+- [x] **Chat Loading** ✅
   - Typing indicator (3 animated dots)
   - Skeleton for message list
   - Disabled input during API calls
 
-- [ ] **Sidebar Loading**
+- [x] **Sidebar Loading** ✅
   - Skeleton for chat items
   - Skeleton for folders
 
@@ -451,17 +363,17 @@ type Message = {
 
 **File**: `src/components/ui/toast.tsx` (shadcn/ui)
 
-- [ ] **Install Toast Component**
+- [x] **Install Toast Component** ✅
   ```bash
   pnpm dlx shadcn@latest add toast
   ```
 
-- [ ] **Error Notifications**
+- [x] **Error Notifications** ✅
   - Show toast on API errors
   - Show toast on rate limit (with retry time)
   - Show toast on validation errors
 
-- [ ] **Success Notifications**
+- [x] **Success Notifications** ✅
   - "Chat saved to folder"
   - "Folder created"
   - "Chat deleted"

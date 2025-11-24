@@ -7,6 +7,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Send, Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import {
@@ -173,35 +174,39 @@ export function ChatInput({
         <div className="flex items-center gap-2">
           {/* What Next Button */}
           {showWhatNext && (
-            <Button
-              onClick={onEvaluate}
-              disabled={disabled || isLoading}
-              variant="outline"
-              className="flex-1"
-            >
-              <Sparkles className="mr-2 h-4 w-4" />
-              What Next?
-            </Button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
+              <Button
+                onClick={onEvaluate}
+                disabled={disabled || isLoading}
+                variant="outline"
+                className="w-full"
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+                What Next?
+              </Button>
+            </motion.div>
           )}
 
           {/* Submit Button */}
-          <Button
-            onClick={handleSubmit}
-            disabled={!isValid || disabled || isLoading}
-            className={cn('flex-1', showWhatNext && 'flex-1')}
-          >
-            {isLoading ? (
-              <>
-                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                Sending...
-              </>
-            ) : (
-              <>
-                <Send className="mr-2 h-4 w-4" />
-                Send
-              </>
-            )}
-          </Button>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className={cn('flex-1', !showWhatNext && 'w-full')}>
+            <Button
+              onClick={handleSubmit}
+              disabled={!isValid || disabled || isLoading}
+              className="w-full"
+            >
+              {isLoading ? (
+                <>
+                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  Send
+                </>
+              )}
+            </Button>
+          </motion.div>
         </div>
       </div>
     </div>

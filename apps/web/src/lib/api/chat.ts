@@ -128,7 +128,7 @@ export async function continueChat(chatId: string): Promise<{ new_prompt: string
 export async function fetchChat(chatId: string) {
   const token = await getAuthToken()
 
-  const response = await fetch(`${API_BASE_URL}/api/chats/${chatId}`, {
+  const response = await fetch(`${API_BASE_URL}/api/chat/${chatId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -149,7 +149,7 @@ export async function fetchChat(chatId: string) {
 export async function fetchChats() {
   const token = await getAuthToken()
 
-  const response = await fetch(`${API_BASE_URL}/api/chats`, {
+  const response = await fetch(`${API_BASE_URL}/api/chat`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -162,4 +162,46 @@ export async function fetchChats() {
   }
 
   return response.json()
+}
+
+/**
+ * Update a chat (rename, move to folder)
+ */
+export async function updateChat(id: string, data: { title?: string; folderId?: string | null }) {
+  const token = await getAuthToken()
+
+  const response = await fetch(`${API_BASE_URL}/api/chat/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: 'Unknown error' }))
+    throw new Error(error.message || `HTTP ${response.status}`)
+  }
+
+  return response.json()
+}
+
+/**
+ * Delete a chat
+ */
+export async function deleteChat(id: string) {
+  const token = await getAuthToken()
+
+  const response = await fetch(`${API_BASE_URL}/api/chat/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: 'Unknown error' }))
+    throw new Error(error.message || `HTTP ${response.status}`)
+  }
 }
