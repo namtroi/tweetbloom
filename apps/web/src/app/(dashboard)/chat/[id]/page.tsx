@@ -104,8 +104,8 @@ export default function ChatDetailPage() {
     const result = await continueChatMutation.mutateAsync(chatId)
 
     if (result) {
-      // Navigate to new chat with prefilled prompt
-      router.push(`/chat?continue=${chatId}&prompt=${encodeURIComponent(result.new_prompt)}`)
+      // Navigate to new chat (prompt is stored in localStorage by the mutation)
+      router.push('/chat')
     }
   }
 

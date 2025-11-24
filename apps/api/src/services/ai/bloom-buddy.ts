@@ -118,6 +118,36 @@ export class BloomBuddyService {
         }
     }
 
+    async synthesizeConversation(history: { role: string; content: string }[]): Promise<string> {
+        const provider = this.providerFactory.getProvider("gemini");
+
+        const historyText = history.map((msg) => `${msg.role}: ${msg.content}`).join("\n");
+
+        const systemPrompt = `
+      You are Bloom Buddy, an expert conversation synthesizer.
+      Analyze the following chat conversation and create a single, comprehensive prompt that captures:
+      - The main topic or question being discussed
+      - Key context and details from the conversation
+      - Any specific requirements or constraints mentioned
+      
+      The synthesized prompt should allow someone to continue this conversation in a new chat without losing context.
+      Keep it under 150 words.
+
+      Chat History:
+      ${historyText}
+
+      Return ONLY the synthesized prompt text. Do not include any JSON, markdown, or other formatting.
+    `;
+
+        try {
+            const response = await provider.generateResponse(systemPrompt);
+            return response.trim();
+        } catch (error) {
+            console.error("Bloom Buddy conversation synthesis failed:", error);
+            return "Continue the previous conversation.";
+        }
+    }
+
     async combineNotes(notes: string[]): Promise<string> {
         const provider = this.providerFactory.getProvider("gemini");
 

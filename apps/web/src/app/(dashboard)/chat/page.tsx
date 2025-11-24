@@ -34,6 +34,14 @@ export default function ChatPage() {
   useEffect(() => {
     setCurrentChat(null)
     clearMessages()
+    
+    // Check if there's a continue chat prompt in localStorage
+    const storedPrompt = localStorage.getItem('continue_chat_prompt')
+    if (storedPrompt) {
+      setContinuePrompt(storedPrompt)
+      // Clear it immediately after reading
+      localStorage.removeItem('continue_chat_prompt')
+    }
   }, [setCurrentChat, clearMessages])
 
   // Count assistant responses (not suggestions)
@@ -46,6 +54,7 @@ export default function ChatPage() {
 
   const handleSendMessage = async (prompt: string, aiTool?: AiTool) => {
     setWhatNextPrompt(undefined) // Clear any "What Next?" suggestion
+    setContinuePrompt(undefined) // Clear any "Continue Chat" prompt
     
     await sendMessageMutation.mutateAsync({
       prompt,

@@ -65,18 +65,23 @@ This is the master checklist for building TweetBloom. It is based on the finaliz
     - [x] Create Main Layout (Sidebar + Chat Area).
     - [x] Implement Protected Route wrapper (Middleware).
 
-## Phase 4: Core UI Implementation
+## Phase 4: Core UI Implementation ✅ COMPLETE
 
-- [ ] **Chat Interface (Flow 1, 2, 3)**
-    - [ ] Build Chat Input component (with 150-word counter).
-    - [ ] Build Message List component (User, Assistant, Suggestion).
-    - [ ] Implement "What Next?" button logic (Flow 2).
-    - [ ] Implement "Continue Chat" transition (Flow 3).
-    - [ ] Add "Save as Note" button (Flow 4).
-- [ ] **Sidebar & History (Flow 6)**
-    - [ ] Fetch and display Chat History (`GET /api/chats`).
-    - [ ] Implement Folders (Create, Rename, Delete).
-    - [ ] Implement Drag & Drop (Chat -> Folder) using `dnd-kit`.
+- [x] **Chat Interface (Flow 1, 2, 3)**
+    - [x] Build Chat Input component (with 150-word counter).
+    - [x] Build Message List component (User, Assistant, Suggestion).
+    - [x] Implement "What Next?" button logic (Flow 2).
+    - [x] Implement "Continue Chat" transition (Flow 3).
+    - [x] Add "Save as Note" button (Flow 4) - Deferred to Phase 5.
+- [x] **Sidebar & History (Flow 6)**
+    - [x] Fetch and display Chat History (`GET /api/chats`).
+    - [x] Implement Folders (Create, Rename, Delete).
+    - [x] Implement Drag & Drop (Chat -> Folder) using `dnd-kit`.
+- [x] **Additional Improvements**
+    - [x] Added chat history context to AI providers (Gemini, OpenAI, Grok).
+    - [x] Fixed AI name display bug when loading chat history.
+    - [x] Fixed CORS issue blocking PATCH requests.
+    - [x] Implemented localStorage for Continue Chat prompt (clean URLs).
 
 ## Phase 5: Advanced Features
 

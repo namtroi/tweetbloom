@@ -161,6 +161,12 @@ export function useContinueChat() {
     
     onSuccess: (data) => {
       setLoading(false)
+      
+      // Store synthesized prompt in localStorage
+      if (data.new_prompt) {
+        localStorage.setItem('continue_chat_prompt', data.new_prompt)
+      }
+      
       // Reset store for new chat
       reset()
       toast.success('Chat synthesized!', {
