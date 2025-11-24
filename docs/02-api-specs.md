@@ -19,14 +19,27 @@ All protected endpoints require an `Authorization` header to be sent with the re
 ## 3. Common Error Responses
 
 - **`400 Bad Request`**
-  - Sent when request validation (Zod) fails (e.g., missing fields, prompt > 150 words).
+  - Sent when request validation (Zod) fails (e.g., missing fields, prompt >150 words OR >1200 characters).
 
   ```json
   {
     "statusCode": 400,
     "code": "FST_ERR_VALIDATION",
     "error": "Bad Request",
-    "message": "body/prompt must NOT be longer than 150 words"
+    "message": "body/prompt: Content must be 150 words or less"
+  }
+  ```
+
+- **`429 Too Many Requests`** ⭐ NEW
+  - Sent when rate limit is exceeded for an endpoint.
+
+  ```json
+  {
+    "error": "Rate limit exceeded",
+    "message": "Too many requests. Try again in 45 seconds",
+    "retryAfter": 45000,
+    "limit": 50,
+    "timeWindow": 60000
   }
   ```
 
@@ -83,11 +96,13 @@ All protected endpoints require an `Authorization` header to be sent with the re
 (Flow 1) Handles a new user prompt. This is the core "blocking" `Bloom Buddy` endpoint.
 **Logic Update:** The server **immediately saves** the user's prompt to the DB (creating a new chat if needed).
 
+**Rate Limit**: 50 requests per minute ⭐ NEW
+
 **Request Body:**
 
 ```json
 {
-  "prompt": "string", // Max 150 words
+  "prompt": "string", // Max 150 words AND 1200 characters
   "chatId": "string (uuid)", // Optional: to continue an existing chat
   "aiTool": "GEMINI" // Optional: Override default tool ('GEMINI'|'CHATGPT'|'GROK')
 }
@@ -134,6 +149,8 @@ All protected endpoints require an `Authorization` header to be sent with the re
 
 (Flow 2) Handles the "What Next?" (Prompt Chaining) flow.
 Tells `Bloom Buddy` to analyze the **entire chat history** (using prompt chaining) and generate a new follow-up prompt.
+
+**Rate Limit**: 60 requests per minute ⭐ NEW
 
 **Request Body:**
 
@@ -230,9 +247,13 @@ Deletes a chat session and all its messages.
 
 ## 6. Module: Summarization
 
-### `POST /api/summarize/chat-to-note`
+> **Note**: Implementation uses `/api/notes/summarize` and `/api/notes/combine` instead of `/api/summarize/*` paths.
+
+### `POST /api/notes/summarize` ⭐ UPDATED PATH
 
 (Flow 4) On-demand summarization. Tells `Bloom Buddy` to summarize a chat and save it directly as a new note.
+
+**Rate Limit**: 30 requests per minute ⭐ NEW
 
 **Request Body:**
 
@@ -248,10 +269,8 @@ Deletes a chat session and all its messages.
 
 ```json
 {
-  "id": "uuid-new-note",
-  "content": "This is a 150-word summary of the entire chat conversation, saved as a note.",
-  "parentId": null,
-  "createdAt": "2023-10-27T10:10:00Z"
+  "noteId": "uuid-new-note",
+  "content": "This is a 150-word summary of the entire chat conversation, saved as a note."
 }
 ```
 
@@ -276,9 +295,11 @@ Tells `Bloom Buddy` to synthesize a chat history into a new prompt. The client r
 }
 ```
 
-### `POST /api/summarize/notes`
+### `POST /api/notes/combine` ⭐ UPDATED PATH
 
-(Flow 5) Combines up to 7 selected notes into a single, cohesive 150-word prompt.
+(Flow 5) Combines up to 7 selected notes into a single, cohesive summary note.
+
+**Rate Limit**: 20 requests per minute ⭐ NEW
 
 **Request Body:**
 
@@ -292,7 +313,8 @@ Tells `Bloom Buddy` to synthesize a chat history into a new prompt. The client r
 
 ```json
 {
-  "prompt": "Based on the provided notes, this is a new, synthesized 150-word prompt ready to be sent to the chat."
+  "noteId": "uuid-new-combined-note",
+  "content": "Based on the provided notes, this is a new, synthesized 150-word note."
 }
 ```
 

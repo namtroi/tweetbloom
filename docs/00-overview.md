@@ -119,7 +119,7 @@ This flow allows the user to set their preferred default AI backend, which the s
 
 To maintain the "Mobile First, Fast, Simple" mission, the entire user experience is built around these hard limits:
 
-- **150-Word Limit:** All user `prompts`, AI `responses`, and `notes` are limited to a max of 150 words.
+- **150-Word Limit**: All user `prompts`, AI `responses`, and `notes` are limited to a max of 150 words **AND 1200 characters** (whichever is reached first). ⭐ UPDATED
 - **7-Response Limit:** A single chat session can have a max of 7 AI `responses`.
 - **7-Note Limit:** The "Combine Notes" feature can synthesize a max of 7 `notes` at a time.
 - **3-Level Depth Limit:** The `note` tree structure is limited to 3 levels deep.
