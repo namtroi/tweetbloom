@@ -29,6 +29,7 @@ const start = async () => {
         // Register CORS
         await app.register(cors, {
             origin: '*', // TODO: Lock this down in production
+            methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         });
 
         // Register Rate Limiting

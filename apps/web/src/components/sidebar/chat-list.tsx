@@ -18,7 +18,8 @@ import {
   PointerSensor, 
   TouchSensor,
   DragEndEvent,
-  DragStartEvent
+  DragStartEvent,
+  pointerWithin
 } from '@dnd-kit/core'
 import { useUpdateChat } from '@/hooks/use-chats'
 
@@ -97,6 +98,7 @@ export function ChatList() {
   return (
     <DndContext 
       sensors={sensors} 
+      collisionDetection={pointerWithin}
       onDragStart={handleDragStart} 
       onDragEnd={handleDragEnd}
     >

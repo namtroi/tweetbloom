@@ -92,7 +92,7 @@ export function ChatItem({ chat, isOverlay }: ChatItemProps) {
     <div 
       ref={setNodeRef} 
       style={style} 
-      className={cn("group relative px-2 py-1", isOverlay && "opacity-100 bg-background border rounded-lg shadow-lg z-50")}
+      className={cn("group relative px-2 py-1", isOverlay && "opacity-100 bg-background border rounded-lg shadow-lg z-50 pointer-events-none")}
       {...attributes}
     >
       <div className={cn(

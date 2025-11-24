@@ -403,6 +403,7 @@ type Message = {
   - [x] Rename a folder
   - [x] Delete a folder → Chats move to root
   - [x] Drag chat into folder → Verify update
+    - *Fix Applied*: Added `pointer-events-none` to overlay and used `pointerWithin` collision detection.
   - [x] Rename a chat
   - [x] Delete a chat
   - [x] Verify chat list updates in real-time

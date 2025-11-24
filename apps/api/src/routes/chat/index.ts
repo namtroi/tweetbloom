@@ -210,6 +210,7 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
         }
     }, async (req, reply) => {
         const { id } = req.params as { id: string };
+        req.log.info({ id, body: req.body }, 'Updating chat');
         const service = new ChatManagementService(req.jwt!);
         const chat = await service.updateChat(id, req.body);
         return chat;
