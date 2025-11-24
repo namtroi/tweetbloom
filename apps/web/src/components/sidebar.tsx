@@ -21,6 +21,7 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  StickyNote,
 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
@@ -56,6 +57,28 @@ export function Sidebar({ className }: SidebarProps) {
               <MessageSquarePlus className="mr-2 h-4 w-4" />
               New Chat
             </Button>
+          </div>
+          
+          {/* Navigation Links */}
+          <div className="mt-4 space-y-1">
+            <Link href="/chat">
+              <Button
+                variant={pathname.startsWith("/chat") ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <MessageSquarePlus className="mr-2 h-4 w-4" />
+                Chats
+              </Button>
+            </Link>
+            <Link href="/notes">
+              <Button
+                variant={pathname.startsWith("/notes") ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <StickyNote className="mr-2 h-4 w-4" />
+                Notes
+              </Button>
+            </Link>
           </div>
         </div>
         
