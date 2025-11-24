@@ -73,7 +73,8 @@ export const useChatStore = create<ChatState>((set) => ({
 }))
 
 // Helper function to convert MessageRow to Message
-export function messageRowToMessage(row: MessageRow): Message {
+// Helper function to convert MessageRow to Message
+export function messageRowToMessage(row: MessageRow, aiTool?: AiTool): Message {
   return {
     id: row.id,
     role: row.role,
@@ -81,5 +82,6 @@ export function messageRowToMessage(row: MessageRow): Message {
     type: row.type,
     metadata: row.metadata,
     createdAt: row.created_at,
+    aiTool: aiTool,
   }
 }

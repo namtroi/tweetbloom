@@ -50,7 +50,9 @@ export default function ChatDetailPage() {
       
       // Convert and set messages
       if (chat.messages) {
-        const convertedMessages = chat.messages.map(messageRowToMessage)
+        const convertedMessages = chat.messages.map((msg: any) => 
+          messageRowToMessage(msg, chat.ai_tool as AiTool)
+        )
         setMessages(convertedMessages)
       }
     }

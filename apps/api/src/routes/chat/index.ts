@@ -110,7 +110,30 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
         const providerType = providerTypeMap[selectedAiTool];
         const provider = AIProviderFactory.getInstance().getProvider(providerType);
 
-        let aiResponse = await provider.generateResponse(prompt);
+        // Fetch chat history for context (if chat exists)
+        let history: { role: 'user' | 'assistant'; content: string }[] = [];
+        if (chatId) {
+            const { data: messages, error: historyError } = await supabase
+                .from('messages')
+                .select('role, content, type')
+                .eq('chat_id', chatId)
+                .order('created_at', { ascending: true });
+
+            if (!historyError && messages) {
+                // Only include user messages and assistant responses (exclude suggestions)
+                history = messages
+                    .filter((msg: any) => 
+                        (msg.role === 'user' && msg.type === 'text') || 
+                        (msg.role === 'assistant' && msg.type === 'response')
+                    )
+                    .map((msg: any) => ({
+                        role: msg.role as 'user' | 'assistant',
+                        content: msg.content
+                    }));
+            }
+        }
+
+        let aiResponse = await provider.generateResponse(prompt, history);
         
         // Apply truncation as safety net (in case AI doesn't comply)
         const originalResponse = aiResponse;

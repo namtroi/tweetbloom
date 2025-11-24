@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { AIProvider } from "./types";
+import { AIProvider, ChatMessage } from "./types";
 import { getEnv } from "../../../config/env";
 
 export class OpenAIProvider implements AIProvider {
@@ -14,12 +14,11 @@ export class OpenAIProvider implements AIProvider {
         this.modelName = env.OPENAI_AI;
     }
 
-    async generateResponse(prompt: string, context?: any): Promise<string> {
-        const completion = await this.client.chat.completions.create({
-            messages: [
-                { 
-                    role: "system", 
-                    content: `You are a helpful AI assistant for TweetBloom.
+    async generateResponse(prompt: string, history?: ChatMessage[]): Promise<string> {
+        const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+            { 
+                role: "system", 
+                content: `You are a helpful AI assistant for TweetBloom.
 
 CRITICAL RESPONSE RULES (MUST FOLLOW):
 - Keep ALL responses under 150 words
@@ -30,12 +29,27 @@ CRITICAL RESPONSE RULES (MUST FOLLOW):
 - NEVER exceed these limits under any circumstances
 
 These limits are strict requirements for mobile-first experience.`
-                },
-                { 
-                    role: "user", 
-                    content: prompt 
-                }
-            ],
+            }
+        ];
+
+        // Add history if exists
+        if (history && history.length > 0) {
+            history.forEach(msg => {
+                messages.push({
+                    role: msg.role,
+                    content: msg.content
+                });
+            });
+        }
+
+        // Add current prompt
+        messages.push({ 
+            role: "user", 
+            content: prompt 
+        });
+
+        const completion = await this.client.chat.completions.create({
+            messages,
             model: this.modelName,
         });
         return completion.choices[0].message.content || "";

@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { AIProvider } from "./types";
+import { AIProvider, ChatMessage } from "./types";
 import { getEnv } from "../../../config/env";
 
 export class GeminiProvider implements AIProvider {
@@ -12,7 +12,7 @@ export class GeminiProvider implements AIProvider {
         this.modelName = env.GEMINI_AI;
     }
 
-    async generateResponse(prompt: string, context?: any): Promise<string> {
+    async generateResponse(prompt: string, history?: ChatMessage[]): Promise<string> {
         const model = this.client.getGenerativeModel({ 
             model: this.modelName,
             systemInstruction: `You are a helpful AI assistant for TweetBloom.
@@ -28,6 +28,21 @@ CRITICAL RESPONSE RULES (MUST FOLLOW):
 These limits are strict requirements for mobile-first experience.`
         });
         
+        // If history exists, use chat mode for context
+        if (history && history.length > 0) {
+            const chat = model.startChat({
+                history: history.map(msg => ({
+                    role: msg.role === 'assistant' ? 'model' : 'user',
+                    parts: [{ text: msg.content }],
+                })),
+            });
+            
+            const result = await chat.sendMessage(prompt);
+            const response = await result.response;
+            return response.text();
+        }
+        
+        // No history - single turn generation
         const result = await model.generateContent(prompt);
         const response = await result.response;
         return response.text();
