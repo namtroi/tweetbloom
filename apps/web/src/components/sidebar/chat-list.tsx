@@ -22,6 +22,14 @@ import {
 } from '@dnd-kit/core'
 import { useUpdateChat } from '@/hooks/use-chats'
 
+interface Chat {
+  id: string
+  folder_id: string | null
+  title: string
+  ai_tool: 'GEMINI' | 'CHATGPT' | 'GROK'
+  updated_at: string
+}
+
 export function ChatList() {
   const { data: folders, isLoading: isLoadingFolders } = useFolders()
   const { data: chats, isLoading: isLoadingChats } = useChats()
@@ -59,7 +67,7 @@ export function ChatList() {
     }
   }
 
-  const activeChat = chats?.find((c: any) => c.id === activeId)
+  const activeChat = chats?.find((c: Chat) => c.id === activeId)
 
   if (isLoadingFolders || isLoadingChats) {
     return (
@@ -72,10 +80,10 @@ export function ChatList() {
   }
 
   // Group chats by folder
-  const chatsByFolder: Record<string, any[]> = {}
-  const unorganizedChats: any[] = []
+  const chatsByFolder: Record<string, Chat[]> = {}
+  const unorganizedChats: Chat[] = []
 
-  chats?.forEach((chat: any) => {
+  chats?.forEach((chat: Chat) => {
     if (chat.folder_id) {
       if (!chatsByFolder[chat.folder_id]) {
         chatsByFolder[chat.folder_id] = []

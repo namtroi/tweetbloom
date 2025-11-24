@@ -94,7 +94,7 @@ export default function ChatDetailPage() {
     })
 
     if (result) {
-      setWhatNextPrompt(result.suggestion)
+      setWhatNextPrompt(result.new_prompt)
     }
   }
 

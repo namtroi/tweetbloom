@@ -21,12 +21,20 @@ import { RenameFolderDialog } from './rename-folder-dialog'
 import { useDeleteFolder } from '@/hooks/use-folders'
 import { useDroppable } from '@dnd-kit/core'
 
+interface Chat {
+  id: string
+  title: string
+  ai_tool: 'GEMINI' | 'CHATGPT' | 'GROK'
+  updated_at: string
+  folder_id: string | null
+}
+
 interface FolderItemProps {
   folder: {
     id: string
     name: string
   }
-  chats: any[] // Using any for now, should be Chat type
+  chats: Chat[]
 }
 
 export function FolderItem({ folder, chats }: FolderItemProps) {
