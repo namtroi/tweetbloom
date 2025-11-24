@@ -529,3 +529,63 @@ Updates the settings for the authenticated user.
   "updated_at": "2023-10-27T10:05:00Z"
 }
 ```
+
+---
+
+## 10. Module: Folders
+
+### `GET /api/folders`
+
+Fetches all folders for the authenticated user.
+
+**Success Response (`200 OK`):**
+
+```json
+[
+  {
+    "id": "uuid-folder-1",
+    "user_id": "uuid-user",
+    "name": "Marketing",
+    "created_at": "...",
+    "updated_at": "..."
+  }
+]
+```
+
+### `POST /api/folders`
+
+Creates a new folder.
+
+**Request Body:**
+
+```json
+{
+  "name": "string"
+}
+```
+
+**Success Response (`201 Created`):**
+
+- Returns the created folder object.
+
+### `PATCH /api/folders/:id`
+
+Updates a folder's name.
+
+**Request Body:**
+
+```json
+{
+  "name": "string"
+}
+```
+
+**Success Response (`200 OK`):**
+
+- Returns the updated folder object.
+
+### `DELETE /api/folders/:id`
+
+Deletes a folder. Chats inside are moved to root (handled by DB `ON DELETE SET NULL`).
+
+**Success Response (`204 No Content`)**

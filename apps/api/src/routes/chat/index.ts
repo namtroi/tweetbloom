@@ -1,12 +1,14 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { ChatRequestSchema, ChatResponseSchema, ChatRowSchema, MessageRowSchema } from '@tweetbloom/types';
+import { z } from 'zod';
+import { ChatRequestSchema, ChatResponseSchema, ChatRowSchema, MessageRowSchema, UpdateChatSchema } from '@tweetbloom/types';
 import { authMiddleware } from '../../middleware/auth';
 import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
 import { AIProviderFactory } from '../../services/ai/providers';
 import { RATE_LIMITS } from '../../config/rate-limits';
 import { truncateToLimits, getTruncationStats } from '../../utils/text-truncation';
+import { ChatManagementService } from '../../services/chat-management';
 import evaluateRoutes from './evaluate';
 
 const chatRoutes: FastifyPluginAsync = async (fastify) => {
@@ -150,6 +152,82 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
             chatId: chatId!,
             messageId: validatedAiMsg.id
         };
+    });
+    // Get all chats
+    app.get('/', {
+        preHandler: [authMiddleware]
+    }, async (req, reply) => {
+        const supabase = createUserClient(req.jwt!);
+        const { data, error } = await supabase
+            .from('chats')
+            .select('*')
+            .order('updated_at', { ascending: false });
+        
+        if (error) throw error;
+        return data;
+    });
+
+    // Get single chat
+    app.get('/:id', {
+        preHandler: [authMiddleware],
+        schema: {
+            params: z.object({
+                id: z.string().uuid()
+            })
+        }
+    }, async (req, reply) => {
+        const { id } = req.params as { id: string };
+        const supabase = createUserClient(req.jwt!);
+        
+        // Fetch chat with messages
+        const { data: chat, error } = await supabase
+            .from('chats')
+            .select('*, messages(*)')
+            .eq('id', id)
+            .single();
+            
+        if (error) throw error;
+        
+        // Sort messages by created_at
+        const chatAny = chat as any;
+        if (chatAny && chatAny.messages) {
+            chatAny.messages.sort((a: any, b: any) => 
+                new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+            );
+        }
+        
+        return chat;
+    });
+
+    // Update chat (rename, move folder)
+    app.patch('/:id', {
+        preHandler: [authMiddleware],
+        schema: {
+            params: z.object({
+                id: z.string().uuid()
+            }),
+            body: UpdateChatSchema
+        }
+    }, async (req, reply) => {
+        const { id } = req.params as { id: string };
+        const service = new ChatManagementService(req.jwt!);
+        const chat = await service.updateChat(id, req.body);
+        return chat;
+    });
+
+    // Delete chat
+    app.delete('/:id', {
+        preHandler: [authMiddleware],
+        schema: {
+            params: z.object({
+                id: z.string().uuid()
+            })
+        }
+    }, async (req, reply) => {
+        const { id } = req.params as { id: string };
+        const service = new ChatManagementService(req.jwt!);
+        await service.deleteChat(id);
+        return reply.status(204).send();
     });
 };
 

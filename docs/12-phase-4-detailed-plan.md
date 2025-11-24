@@ -298,13 +298,14 @@ type Message = {
   - Use `Dialog` from shadcn/ui
   - Input for folder name
   - "Create" and "Cancel" buttons
-  - API integration: `POST /api/folders`
+  - "Create" and "Cancel" buttons
+  - API integration: `POST /api/folders` ✅
 
 **File**: `src/components/sidebar/rename-folder-dialog.tsx`
 
 - [ ] **Rename Folder Dialog**
   - Pre-filled input with current name
-  - API integration: `PATCH /api/folders/:id`
+  - API integration: `PATCH /api/folders/:id` ✅
 
 ---
 
@@ -340,9 +341,10 @@ type Message = {
   - "Rename" option
   - "Move to Folder" submenu (list all folders)
   - "Delete" option with confirmation
+  - "Delete" option with confirmation
   - API integrations:
-    - `PATCH /api/chats/:id` (rename, move)
-    - `DELETE /api/chats/:id`
+    - `PATCH /api/chats/:id` (rename, move) ✅
+    - `DELETE /api/chats/:id` ✅
 
 ---
 
