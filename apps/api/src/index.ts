@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
@@ -5,15 +6,11 @@ import swaggerUi from '@fastify/swagger-ui';
 import rateLimit from '@fastify/rate-limit';
 import { serializerCompiler, validatorCompiler, ZodTypeProvider, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { z } from 'zod';
-import dotenv from 'dotenv';
 import { authMiddleware } from './middleware/auth';
 import chatRoutes from './routes/chat';
 import notesRoutes from './routes/notes';
 import { validateEnv } from './config/env';
 import { rateLimitErrorResponse } from './config/rate-limits';
-
-// Load environment variables
-dotenv.config();
 
 // Validate environment variables at startup (fail fast)
 const env = validateEnv();
