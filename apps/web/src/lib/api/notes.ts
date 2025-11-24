@@ -174,6 +174,27 @@ export const notesApi = {
       throw new Error(error.message || 'Failed to summarize chat')
     }
 
-    return response.json()
+    const result = await response.json() as { noteId: string; content: string }
+    
+    // Fetch full note object
+    const noteResponse = await fetch(`${API_BASE}/api/notes`, {
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    
+    if (!noteResponse.ok) {
+      throw new Error('Failed to fetch note after summarization')
+    }
+    
+    const notes = await noteResponse.json() as Note[]
+    const note = notes.find(n => n.id === result.noteId)
+    
+    if (!note) {
+      throw new Error('Note not found after summarization')
+    }
+    
+    return note
   },
 }

@@ -10,10 +10,13 @@ import { useParams, useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { useChatStore, messageRowToMessage } from '@/store/use-chat-store'
 import { useSendMessage, useEvaluateChat, useContinueChat } from '@/hooks/use-chat-mutations'
+import { useSummarizeChat } from '@/hooks/use-note-mutations'
 import { ChatInput } from '@/components/chat/chat-input'
 import { MessageList } from '@/components/chat/message-list'
+import { NoteEditorModal } from '@/components/notes/note-editor-modal'
 import { fetchChat } from '@/lib/api/chat'
 import type { AiTool } from '@/store/use-chat-store'
+import type { Note } from '@/store/use-note-store'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function ChatDetailPage() {
@@ -109,6 +112,32 @@ export default function ChatDetailPage() {
     }
   }
 
+  // Save as Note functionality
+  const summarizeChatMutation = useSummarizeChat()
+  const [noteEditorOpen, setNoteEditorOpen] = useState(false)
+  const [summarizedNote, setSummarizedNote] = useState<Note | null>(null)
+  const [savingNoteId, setSavingNoteId] = useState<string | null>(null)
+
+  const handleSaveAsNote = async (messageId: string) => {
+    setSavingNoteId(messageId)
+    
+    try {
+      const note = await summarizeChatMutation.mutateAsync(chatId)
+      
+      if (note) {
+        setSummarizedNote(note)
+        setNoteEditorOpen(true)
+      }
+    } finally {
+      setSavingNoteId(null)
+    }
+  }
+
+  const handleCloseNoteEditor = () => {
+    setNoteEditorOpen(false)
+    setSummarizedNote(null)
+  }
+
   // Loading state
   if (isLoadingChat) {
     return (
@@ -150,6 +179,8 @@ export default function ChatDetailPage() {
           isEmpty={messages.length === 0}
           onAcceptSuggestion={handleAcceptSuggestion}
           onEditSuggestion={handleEditSuggestion}
+          onSaveAsNote={handleSaveAsNote}
+          savingNoteId={savingNoteId}
         />
       </div>
 
@@ -163,6 +194,13 @@ export default function ChatDetailPage() {
         showWhatNext={showWhatNext}
         showContinue={hasReachedLimit}
         prefilledValue={whatNextPrompt}
+      />
+
+      {/* Note Editor Modal */}
+      <NoteEditorModal
+        open={noteEditorOpen}
+        onOpenChange={handleCloseNoteEditor}
+        note={summarizedNote}
       />
     </div>
   )
