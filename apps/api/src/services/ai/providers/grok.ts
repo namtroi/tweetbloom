@@ -1,19 +1,21 @@
 import OpenAI from "openai";
 import { AIProvider } from "./types";
+import { getEnv } from "../../../config/env";
 
 export class GrokProvider implements AIProvider {
     private client: OpenAI;
     private modelName: string;
 
     constructor() {
-        const apiKey = process.env.GROK_API_KEY;
-        if (!apiKey) throw new Error("GROK_API_KEY is not set");
+        const env = getEnv();
+        const apiKey = env.GROK_API_KEY;
+        if (!apiKey) throw new Error("GROK_API_KEY is not set (optional provider)");
         // Grok uses OpenAI compatible API
         this.client = new OpenAI({
             apiKey,
             baseURL: "https://api.x.ai/v1"
         });
-        this.modelName = process.env.GROK_AI || "grok-4-fast-reasoning";
+        this.modelName = env.GROK_AI;
     }
 
     async generateResponse(prompt: string, context?: any): Promise<string> {

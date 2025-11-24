@@ -144,6 +144,42 @@ async function main() {
         console.log('Skipping Test 5 because Test 2 did not return a chatId');
     }
 
+    // Test 5.5: Word Count Validation - Too Many Words
+    console.log('\n--- Test 5.5: Word Count Validation (Too Many Words) ---');
+    const tooManyWords = 'word '.repeat(151); // 151 words
+    const res5_5 = await fetch('http://localhost:3001/api/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`
+        },
+        body: JSON.stringify({
+            prompt: tooManyWords
+        })
+    });
+    const data5_5 = await res5_5.json();
+    console.log('Status:', res5_5.status);
+    console.log('Response:', JSON.stringify(data5_5, null, 2));
+    console.log('Expected: 400 Bad Request with word count error');
+
+    // Test 5.6: Word Count Validation - Too Many Characters
+    console.log('\n--- Test 5.6: Word Count Validation (Too Many Characters) ---');
+    const tooManyChars = 'a'.repeat(1201); // 1201 characters
+    const res5_6 = await fetch('http://localhost:3001/api/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`
+        },
+        body: JSON.stringify({
+            prompt: tooManyChars
+        })
+    });
+    const data5_6 = await res5_6.json();
+    console.log('Status:', res5_6.status);
+    console.log('Response:', JSON.stringify(data5_6, null, 2));
+    console.log('Expected: 400 Bad Request with character limit error');
+
     // Test 6: Combine Notes
     console.log('\n--- Test 6: Combine Notes ---');
     // Create 2 dummy notes

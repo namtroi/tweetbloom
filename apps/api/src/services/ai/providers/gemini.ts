@@ -1,15 +1,15 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { AIProvider } from "./types";
+import { getEnv } from "../../../config/env";
 
 export class GeminiProvider implements AIProvider {
     private client: GoogleGenerativeAI;
     private modelName: string;
 
     constructor() {
-        const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) throw new Error("GEMINI_API_KEY is not set");
-        this.client = new GoogleGenerativeAI(apiKey);
-        this.modelName = process.env.GEMINI_AI || "gemini-2.5-flash-lite";
+        const env = getEnv();
+        this.client = new GoogleGenerativeAI(env.GEMINI_API_KEY);
+        this.modelName = env.GEMINI_AI;
     }
 
     async generateResponse(prompt: string, context?: any): Promise<string> {

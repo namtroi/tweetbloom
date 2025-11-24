@@ -2,14 +2,21 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import rateLimit from '@fastify/rate-limit';
 import { serializerCompiler, validatorCompiler, ZodTypeProvider, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 import dotenv from 'dotenv';
 import { authMiddleware } from './middleware/auth';
 import chatRoutes from './routes/chat';
 import notesRoutes from './routes/notes';
+import { validateEnv } from './config/env';
+import { rateLimitErrorResponse } from './config/rate-limits';
 
+// Load environment variables
 dotenv.config();
+
+// Validate environment variables at startup (fail fast)
+const env = validateEnv();
 
 const app = Fastify({
     logger: true,
@@ -24,6 +31,14 @@ const start = async () => {
         // Register CORS
         await app.register(cors, {
             origin: '*', // TODO: Lock this down in production
+        });
+
+        // Register Rate Limiting
+        await app.register(rateLimit, {
+            global: true,
+            max: 100, // Default global limit
+            timeWindow: '1 minute',
+            errorResponseBuilder: rateLimitErrorResponse
         });
 
         // Register Swagger

@@ -1,15 +1,22 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { SummarizeNotesSchema, SummarizeNotesResponseSchema } from '@tweetbloom/types';
+import { SummarizeNotesSchema, SummarizeNotesResponseSchema, NoteRowSchema } from '@tweetbloom/types';
 import { authMiddleware } from '../../middleware/auth';
 import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
+import { RATE_LIMITS } from '../../config/rate-limits';
 
 const combineRoutes: FastifyPluginAsync = async (fastify) => {
     const app = fastify.withTypeProvider<ZodTypeProvider>();
 
     app.post('/combine', {
         preHandler: [authMiddleware],
+        config: {
+            rateLimit: {
+                max: RATE_LIMITS.combine.max,
+                timeWindow: RATE_LIMITS.combine.timeWindow
+            }
+        },
         schema: {
             body: SummarizeNotesSchema,
             response: {
@@ -24,9 +31,8 @@ const combineRoutes: FastifyPluginAsync = async (fastify) => {
         // 1. Fetch Notes
         const { data: notes, error: notesError } = await supabase
             .from('notes')
-            .select('content')
-            .in('id', noteIds)
-            .eq('user_id', user.id); // Ensure user owns the notes
+            .select('id, content')
+            .in('id', noteIds);
 
         if (notesError || !notes || notes.length < 2) {
             req.log.error(notesError, 'Failed to fetch notes or not enough notes found');
@@ -34,17 +40,16 @@ const combineRoutes: FastifyPluginAsync = async (fastify) => {
         }
 
         // 2. Call Bloom Buddy to Combine
-        const noteContents = (notes as any[]).map(n => n.content);
+        const noteContents = notes.map((n: { content: string }) => n.content);
         const combinedContent = await BloomBuddyService.getInstance().combineNotes(noteContents);
 
         // 3. Save Combined Note
         const { data: newNote, error: saveError } = await supabase
             .from('notes')
-            // @ts-ignore
+            // @ts-expect-error - Supabase generated types don't properly infer insert return types. We validate with NoteRowSchema below.
             .insert({
                 user_id: user.id,
                 content: combinedContent,
-                // Optional: link to parent notes if schema supported it, but for now just content
             })
             .select()
             .single();
@@ -53,10 +58,13 @@ const combineRoutes: FastifyPluginAsync = async (fastify) => {
             req.log.error(saveError, 'Failed to save combined note');
             throw new Error('Failed to save combined note');
         }
+        
+        // Validate note data
+        const validatedNote = NoteRowSchema.parse(newNote);
 
         return {
-            noteId: (newNote as any).id,
-            content: (newNote as any).content
+            noteId: validatedNote.id,
+            content: combinedContent
         };
     });
 };

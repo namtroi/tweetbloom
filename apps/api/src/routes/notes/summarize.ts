@@ -1,15 +1,22 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { SummarizeChatToNoteSchema, SummarizeChatToNoteResponseSchema } from '@tweetbloom/types';
+import { SummarizeChatToNoteSchema, SummarizeChatToNoteResponseSchema, NoteRowSchema } from '@tweetbloom/types';
 import { authMiddleware } from '../../middleware/auth';
 import { createUserClient } from '../../lib/supabase';
 import { BloomBuddyService } from '../../services/ai/bloom-buddy';
+import { RATE_LIMITS } from '../../config/rate-limits';
 
 const summarizeRoutes: FastifyPluginAsync = async (fastify) => {
     const app = fastify.withTypeProvider<ZodTypeProvider>();
 
     app.post('/summarize', {
         preHandler: [authMiddleware],
+        config: {
+            rateLimit: {
+                max: RATE_LIMITS.summarize.max,
+                timeWindow: RATE_LIMITS.summarize.timeWindow
+            }
+        },
         schema: {
             body: SummarizeChatToNoteSchema,
             response: {
@@ -40,13 +47,10 @@ const summarizeRoutes: FastifyPluginAsync = async (fastify) => {
         // 3. Save Summary to Notes
         const { data: newNote, error: noteError } = await supabase
             .from('notes')
-            // @ts-ignore
+            // @ts-expect-error - Supabase generated types don't properly infer insert return types. We validate with NoteRowSchema below.
             .insert({
                 user_id: user.id,
                 content: summary,
-                // We don't have a direct chat_id link in notes table based on schema provided earlier, 
-                // but if we did, we'd add it here. For now, just content.
-                // Assuming schema: id, user_id, content, parent_id, created_at...
             })
             .select()
             .single();
@@ -55,10 +59,13 @@ const summarizeRoutes: FastifyPluginAsync = async (fastify) => {
             req.log.error(noteError, 'Failed to save note');
             throw new Error('Failed to save note');
         }
+        
+        // Validate note data
+        const validatedNote = NoteRowSchema.parse(newNote);
 
         return {
-            noteId: (newNote as any).id,
-            content: (newNote as any).content
+            noteId: validatedNote.id,
+            content: summary
         };
     });
 };

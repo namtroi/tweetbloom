@@ -5,12 +5,17 @@
     "types": "./index.ts",
     "scripts": {
         "lint": "eslint .",
-        "generate:db": "supabase gen types typescript --linked > supabase-types.ts"
+        "generate:db": "supabase gen types typescript --linked > supabase-types.ts",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "test:coverage": "vitest --coverage"
     },
     "devDependencies": {
+        "@vitest/ui": "^4.0.13",
+        "supabase": "latest",
         "typescript": "latest",
-        "zod": "^4.1.12",
-        "supabase": "latest"
+        "vitest": "^4.0.13",
+        "zod": "^4.1.12"
     },
     "dependencies": {
         "zod": "latest"
