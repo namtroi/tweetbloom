@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { authMiddleware } from './middleware/auth';
 import chatRoutes from './routes/chat';
 import notesRoutes from './routes/notes';
+import folderRoutes from './routes/folders';
 import { validateEnv } from './config/env';
 import { rateLimitErrorResponse } from './config/rate-limits';
 
@@ -88,6 +89,7 @@ const start = async () => {
         // Register Routes
         await app.register(chatRoutes, { prefix: '/api/chat' });
         await app.register(notesRoutes, { prefix: '/api/notes' });
+        await app.register(folderRoutes, { prefix: '/api/folders' });
 
         await app.ready();
 
