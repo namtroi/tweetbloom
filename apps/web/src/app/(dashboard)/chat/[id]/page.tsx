@@ -18,6 +18,7 @@ import { fetchChat } from '@/lib/api/chat'
 import type { AiTool } from '@/store/use-chat-store'
 import type { Note } from '@/store/use-note-store'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ChatTags } from '@/components/chat/chat-tags'
 
 export default function ChatDetailPage() {
   const params = useParams()
@@ -90,7 +91,7 @@ export default function ChatDetailPage() {
     const lastResponse = messages
       .filter((m) => m.role === 'assistant' && m.type === 'response')
       .pop()
-
+    
     if (!lastResponse) return
 
     const result = await evaluateChatMutation.mutateAsync({
@@ -168,6 +169,9 @@ export default function ChatDetailPage() {
           <p className="text-sm text-muted-foreground">
             Using {chat?.ai_tool || 'AI'} · {responseCount}/7 responses
           </p>
+          {chat && (
+            <ChatTags chatId={chat.id} tags={chat.tags || []} />
+          )}
         </div>
       </div>
 

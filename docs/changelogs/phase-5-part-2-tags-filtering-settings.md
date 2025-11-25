@@ -15,7 +15,9 @@
 
 ### 2. **Chat Tags Support**
 - **API Client**: Updated `updateChat` in `src/lib/api/chat.ts` to accept `tagIds`
-- **Backend Service**: Updated `ChatManagementService` in `apps/api/src/services/chat-management.ts` to handle `tagIds` and update `chat_tags` table.
+- **Backend Service**: Updated `ChatManagementService` to handle `tagIds` and update `chat_tags` table.
+- **Backend API**: Updated `GET /api/chat/:id` to include tags in response.
+- **UI**: Added `ChatTags` component in Chat Header (`src/app/(dashboard)/chat/[id]/page.tsx`).
 
 ### 3. **Tag Management & Settings**
 - **Settings Modal**: `src/components/settings/settings-modal.tsx`
@@ -41,7 +43,8 @@
 ### Chat Tags:
 - ✅ Backend support for saving chat tags
 - ✅ API client support
-- ⏳ UI for adding tags to chats (Next step)
+- ✅ UI for adding tags to chats (Chat Header)
+- ✅ Real-time update using `useUpdateChat` hook
 
 ### Tag Management:
 - ✅ View all tags in Settings
@@ -89,10 +92,9 @@ async updateChatTags(chatId: string, tagIds: string[]) {
 
 ## 🔄 Next Steps
 
-1. **Chat Tag UI**: Add UI to assign tags to chats (e.g., in chat header or details).
-2. **Search & Filter (Part 5)**: Global search.
-3. **Drag & Drop (Part 1.4)**: Reorder notes.
+1. **Search & Filter (Part 5)**: Global search.
+2. **Drag & Drop (Part 1.4)**: Reorder notes.
 
 ---
 
-**Status**: ✅ **COMPLETE** - Tag System fully implemented (except Chat Tag UI)!
+**Status**: ✅ **COMPLETE** - Tag System fully implemented!

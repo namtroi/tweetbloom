@@ -184,3 +184,26 @@ export function useContinueChat() {
     },
   })
 }
+
+/**
+ * Hook for updating chat (title, folder, tags)
+ */
+export function useUpdateChat() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: { title?: string; folderId?: string | null; tagIds?: string[] } }) => {
+      // Dynamic import to avoid circular dependency if any
+      const { updateChat } = await import('@/lib/api/chat')
+      return updateChat(id, data)
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['chat', data.id] })
+      queryClient.invalidateQueries({ queryKey: ['chats'] })
+      toast.success('Chat updated')
+    },
+    onError: (error: Error) => {
+      toast.error('Failed to update chat', { description: error.message })
+    }
+  })
+}

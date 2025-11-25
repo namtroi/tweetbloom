@@ -32,7 +32,7 @@ const TAG_COLORS = [
   '#06b6d4', // cyan
 ]
 
-export function TagSelector({ selectedTags, onTagsChange, disabled = false }: TagSelectorProps) {
+export function TagSelector({ selectedTags, onTagsChange, disabled = false, showLabel = true }: TagSelectorProps & { showLabel?: boolean }) {
   const { data: allTags = [], isLoading } = useTags()
   const createTagMutation = useCreateTag()
   
@@ -74,7 +74,7 @@ export function TagSelector({ selectedTags, onTagsChange, disabled = false }: Ta
 
   return (
     <div className="space-y-2">
-      <Label>Tags</Label>
+      {showLabel && <Label>Tags</Label>}
       
       {/* Selected Tags */}
       <div className="flex flex-wrap gap-2">

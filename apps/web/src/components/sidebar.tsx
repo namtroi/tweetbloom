@@ -30,6 +30,8 @@ import { ChatList } from "@/components/sidebar/chat-list"
 import { SettingsModal } from "@/components/settings/settings-modal"
 import { Settings } from "lucide-react"
 
+import { SearchCommand } from "@/components/search/search-command"
+
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Sidebar({ className }: SidebarProps) {
@@ -52,6 +54,11 @@ export function Sidebar({ className }: SidebarProps) {
             <LayoutDashboard className="h-5 w-5" />
             TweetBloom
           </div>
+          
+          <div className="px-4 mb-2">
+            <SearchCommand />
+          </div>
+
           <div className="space-y-1">
             <Button
               variant="default"
