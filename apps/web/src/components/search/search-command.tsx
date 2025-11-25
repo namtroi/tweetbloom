@@ -14,15 +14,18 @@ import {
 import { useChats } from '@/hooks/use-chats'
 import { useNotes } from '@/hooks/use-note-mutations'
 import { useTags } from '@/hooks/use-tag-mutations'
-import { MessageSquare, StickyNote, Tag, Search } from 'lucide-react'
+import { type Note } from '@/store/use-note-store'
+import { type Tag } from '@/store/use-tag-store'
+import { type Chat } from '@/types/chat'
+import { MessageSquare, StickyNote, Tag as TagIcon, Search } from 'lucide-react'
 
 export function SearchCommand() {
   const [open, setOpen] = React.useState(false)
   const router = useRouter()
 
-  const { data: chats } = useChats()
-  const { data: notes } = useNotes()
-  const { data: tags } = useTags()
+  const { data: chats } = useChats() as { data: Chat[] }
+  const { data: notes } = useNotes() as { data: Note[] }
+  const { data: tags } = useTags() as { data: Tag[] }
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -109,7 +112,7 @@ export function SearchCommand() {
                     runCommand(() => router.push(`/notes`))
                   }}
                 >
-                  <Tag className="mr-2 h-4 w-4" />
+                  <TagIcon className="mr-2 h-4 w-4" />
                   <span>{tag.name}</span>
                 </CommandItem>
               ))}

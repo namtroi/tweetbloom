@@ -74,30 +74,17 @@ export default function ChatPage() {
   }
 
   const handleWhatNext = async () => {
-    console.log('=== What Next Debug ===');
-    console.log('currentChatId:', currentChatId);
-    console.log('messages:', messages);
-    
     if (!currentChatId) {
-      console.log('❌ No currentChatId - returning');
       return;
     }
 
     const lastResponse = messages
       .filter((m) => m.role === 'assistant' && m.type === 'response')
       .pop();
-
-    console.log('lastResponse:', lastResponse);
     
     if (!lastResponse) {
-      console.log('❌ No lastResponse - returning');
       return;
     }
-
-    console.log('✅ Calling evaluateChat with:', {
-      chatId: currentChatId,
-      messageId: lastResponse.id,
-    });
 
     try {
       const result = await evaluateChatMutation.mutateAsync({
@@ -105,13 +92,8 @@ export default function ChatPage() {
         messageId: lastResponse.id,
       });
 
-      console.log('✅ Mutation result:', result);
-
       if (result) {
-        console.log('✅ Setting whatNextPrompt to:', result.new_prompt);
         setWhatNextPrompt(result.new_prompt);
-      } else {
-        console.log('⚠️ Result is null/undefined');
       }
     } catch (error) {
       console.error('❌ Mutation error:', error);

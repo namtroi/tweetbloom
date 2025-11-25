@@ -27,10 +27,15 @@ import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { ChatList } from "@/components/sidebar/chat-list"
 
-import { SettingsModal } from "@/components/settings/settings-modal"
+import dynamic from 'next/dynamic'
 import { Settings } from "lucide-react"
 
 import { SearchCommand } from "@/components/search/search-command"
+
+const SettingsModal = dynamic(() => import('@/components/settings/settings-modal').then(mod => mod.SettingsModal), {
+  ssr: false,
+  loading: () => null
+})
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 

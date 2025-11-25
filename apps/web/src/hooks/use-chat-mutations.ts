@@ -57,7 +57,7 @@ export function useSendMessage() {
       
       // CRITICAL FIX: Set currentChatId if this is a new chat
       if (response.chatId && !currentChatId) {
-        console.log('✅ Setting currentChatId to:', response.chatId);
+
         setCurrentChat(response.chatId);
       }
       
