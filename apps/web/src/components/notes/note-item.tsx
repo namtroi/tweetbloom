@@ -15,18 +15,38 @@ interface NoteItemProps {
   depth: number
   onEdit: (note: Note) => void
   onAddChild: (parentId: string) => void
+  renderChildren?: boolean
+  isExpanded?: boolean
+  onToggleExpand?: () => void
 }
 
-export function NoteItem({ note, depth, onEdit, onAddChild }: NoteItemProps) {
+export function NoteItem({ 
+  note, 
+  depth, 
+  onEdit, 
+  onAddChild, 
+  renderChildren = true,
+  isExpanded: controlledExpanded,
+  onToggleExpand
+}: NoteItemProps) {
   const deleteNoteMutation = useDeleteNote()
   const selectedNotes = useNoteStore((state) => state.selectedNotes)
   const toggleNoteSelection = useNoteStore((state) => state.toggleNoteSelection)
   
-  const [isExpanded, setIsExpanded] = useState(true)
+  const [internalExpanded, setInternalExpanded] = useState(true)
+  const isExpanded = controlledExpanded ?? internalExpanded
   
   const isSelected = selectedNotes.includes(note.id)
   const hasChildren = note.children && note.children.length > 0
   const canAddChild = depth < 3 // Max depth is 3
+
+  const handleToggleExpand = () => {
+    if (onToggleExpand) {
+      onToggleExpand()
+    } else {
+      setInternalExpanded(!internalExpanded)
+    }
+  }
 
   const handleDelete = async () => {
     if (confirm('Are you sure? This will delete the note and all its children.')) {
@@ -60,7 +80,7 @@ export function NoteItem({ note, depth, onEdit, onAddChild }: NoteItemProps) {
         {/* Expand/Collapse (if has children) */}
         {hasChildren && (
           <button
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={handleToggleExpand}
             className="mt-0.5 flex-shrink-0"
           >
             <svg
@@ -121,7 +141,7 @@ export function NoteItem({ note, depth, onEdit, onAddChild }: NoteItemProps) {
       </div>
 
       {/* Children (recursive) */}
-      {hasChildren && isExpanded && (
+      {renderChildren && hasChildren && isExpanded && (
         <div className="mt-2 space-y-2">
           {note.children!.map((child) => (
             <NoteItem

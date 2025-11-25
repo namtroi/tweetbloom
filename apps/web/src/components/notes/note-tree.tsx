@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useNoteStore, buildNoteTree, type Note } from '@/store/use-note-store'
 import { useNotes, useCombineNotes } from '@/hooks/use-note-mutations'
 import { NoteItem } from './note-item'
+import { NoteTreeDnd } from './note-tree-dnd'
 import { NoteEditorModal } from './note-editor-modal'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -151,16 +152,24 @@ export function NoteTree() {
               )}
             </div>
           ) : (
-            <div className={isFiltering ? 'space-y-2' : 'space-y-2'}>
-              {displayNotes.map((note) => (
-                <NoteItem
-                  key={note.id}
-                  note={note}
-                  depth={1} // Always depth 1 if filtering (flat list)
-                  onEdit={handleEdit}
-                  onAddChild={handleAddChild}
+            <div className={isFiltering ? 'space-y-2' : ''}>
+              {isFiltering ? (
+                displayNotes.map((note) => (
+                  <NoteItem
+                    key={note.id}
+                    note={note}
+                    depth={1} // Always depth 1 if filtering (flat list)
+                    onEdit={handleEdit}
+                    onAddChild={handleAddChild}
+                  />
+                ))
+              ) : (
+                <NoteTreeDnd 
+                  notes={displayNotes} 
+                  onEdit={handleEdit} 
+                  onAddChild={handleAddChild} 
                 />
-              ))}
+              )}
             </div>
           )}
         </div>
