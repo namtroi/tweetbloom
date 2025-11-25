@@ -21,7 +21,7 @@ export const ChatResponseSchema = z.object({
 
 export const ChatEvaluateRequestSchema = z.object({
     chatId: z.string().uuid(),
-    messageId: z.string().uuid() // Added to match API specs
+    messageId: z.string().uuid().optional() // Optional - accepted but not currently used
 });
 
 export const ChatEvaluateResponseSchema = z.object({
