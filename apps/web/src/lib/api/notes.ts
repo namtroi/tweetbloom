@@ -6,6 +6,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 export interface CreateNoteData {
   content: string
   parentId?: string | null
+  tagIds?: string[]
 }
 
 export interface UpdateNoteData {
@@ -62,6 +63,7 @@ export const notesApi = {
       body: JSON.stringify({
         content: data.content,
         parentId: data.parentId || null,
+        tagIds: data.tagIds || [],
       }),
     })
 

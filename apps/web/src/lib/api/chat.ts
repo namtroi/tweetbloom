@@ -167,7 +167,7 @@ export async function fetchChats() {
 /**
  * Update a chat (rename, move to folder)
  */
-export async function updateChat(id: string, data: { title?: string; folderId?: string | null }) {
+export async function updateChat(id: string, data: { title?: string; folderId?: string | null; tagIds?: string[] }) {
   const token = await getAuthToken()
 
   const response = await fetch(`${API_BASE_URL}/api/chat/${id}`, {

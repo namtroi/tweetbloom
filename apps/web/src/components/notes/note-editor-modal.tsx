@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { TagSelector } from '@/components/tags/tag-selector'
 import { useNoteStore, type Note } from '@/store/use-note-store'
 import { useCreateNote, useUpdateNote } from '@/hooks/use-note-mutations'
+import type { Tag } from '@/store/use-tag-store'
 import { Loader2 } from 'lucide-react'
 
 interface NoteEditorModalProps {
@@ -24,12 +26,14 @@ export function NoteEditorModal({ open, onOpenChange, note, defaultParentId }: N
 
   const [content, setContent] = useState('')
   const [parentId, setParentId] = useState<string | null>(null)
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
 
   // Sync state when modal opens or note changes
   useEffect(() => {
     if (open) {
       setContent(note?.content || '')
       setParentId(note?.parent_id || defaultParentId || null)
+      setSelectedTags((note?.tags || []) as Tag[])
     }
   }, [open, note, defaultParentId])
 
@@ -60,22 +64,26 @@ export function NoteEditorModal({ open, onOpenChange, note, defaultParentId }: N
   const handleSave = async () => {
     if (!content.trim() || isOverLimit) return
 
+    const tagIds = selectedTags.map(tag => tag.id)
+
     try {
       if (isEditing) {
         await updateNoteMutation.mutateAsync({
           id: note.id,
-          data: { content, parentId },
+          data: { content, parentId, tagIds },
         })
       } else {
         await createNoteMutation.mutateAsync({
           content,
           parentId,
+          tagIds,
         })
       }
       
       onOpenChange(false)
       setContent('')
       setParentId(null)
+      setSelectedTags([])
     } catch (error) {
       // Error handled by mutation
     }
@@ -132,6 +140,13 @@ export function NoteEditorModal({ open, onOpenChange, note, defaultParentId }: N
               Notes can be nested up to 3 levels deep
             </p>
           </div>
+
+          {/* Tag Selector */}
+          <TagSelector
+            selectedTags={selectedTags}
+            onTagsChange={setSelectedTags}
+            disabled={isLoading}
+          />
         </div>
 
         <DialogFooter>

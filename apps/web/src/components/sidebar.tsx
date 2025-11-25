@@ -27,12 +27,16 @@ import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { ChatList } from "@/components/sidebar/chat-list"
 
+import { SettingsModal } from "@/components/settings/settings-modal"
+import { Settings } from "lucide-react"
+
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const [settingsOpen, setSettingsOpen] = React.useState(false)
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -115,6 +119,11 @@ export function Sidebar({ className }: SidebarProps) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
@@ -122,6 +131,7 @@ export function Sidebar({ className }: SidebarProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
     </div>
   )
 }

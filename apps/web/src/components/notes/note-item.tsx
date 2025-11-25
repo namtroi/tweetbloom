@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { type Note } from '@/store/use-note-store'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { TagBadge } from '@/components/tags/tag-badge'
 import { useDeleteNote } from '@/hooks/use-note-mutations'
 import { useNoteStore } from '@/store/use-note-store'
 import { MoreVertical, Edit, Trash2, Plus, CheckSquare, Square } from 'lucide-react'
@@ -76,6 +77,16 @@ export function NoteItem({ note, depth, onEdit, onAddChild }: NoteItemProps) {
         {/* Content */}
         <div className="flex-1 min-w-0">
           <p className="text-sm line-clamp-2">{note.content}</p>
+          
+          {/* Tags */}
+          {note.tags && note.tags.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1">
+              {note.tags.map((tag) => (
+                <TagBadge key={tag.id} tag={tag as any} />
+              ))}
+            </div>
+          )}
+          
           <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
             <span>Depth {depth}</span>
             <span>•</span>

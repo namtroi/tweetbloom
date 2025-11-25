@@ -3,6 +3,7 @@ import { createUserClient } from '../lib/supabase';
 export interface CreateNoteRequest {
   content: string;
   parentId?: string | null;
+  tagIds?: string[];
 }
 
 export interface UpdateNoteRequest {
@@ -21,11 +22,22 @@ export class NoteService {
   async getNotes() {
     const { data, error } = await this.supabase
       .from('notes')
-      .select('*')
+      .select(`
+        *,
+        note_tags (
+          tag:tags (*)
+        )
+      `)
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data;
+
+    // Transform data to include tags array
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return data.map((note: any) => ({
+      ...note,
+      tags: note.note_tags?.map((nt: any) => nt.tag) || []
+    }));
   }
 
   async createNote(data: CreateNoteRequest) {
@@ -40,18 +52,45 @@ export class NoteService {
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: note, error } = await this.supabase
       .from('notes')
       .insert({ 
         content: data.content,
         parent_id: data.parentId || null,
         user_id: user.id
-      } as unknown as never)
+      } as any)
       .select()
       .single();
 
     if (error) throw error;
-    return note;
+
+    // Handle tags if provided
+    if (data.tagIds && data.tagIds.length > 0) {
+      await this.updateNoteTags(note.id, data.tagIds);
+    }
+    
+    // Fetch full note with tags to return
+    const { data: fullNote, error: fetchError } = await this.supabase
+      .from('notes')
+      .select(`
+        *,
+        note_tags (
+          tag:tags (*)
+        )
+      `)
+      .eq('id', note.id)
+      .single();
+      
+    if (fetchError) throw fetchError;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const noteWithTags = fullNote as any;
+
+    return {
+      ...noteWithTags,
+      tags: noteWithTags.note_tags?.map((nt: any) => nt.tag) || []
+    };
   }
 
   async updateNote(id: string, data: UpdateNoteRequest) {
@@ -75,9 +114,10 @@ export class NoteService {
       updateData.parent_id = data.parentId;
     }
 
-    const { data: note, error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await this.supabase
       .from('notes')
-      .update(updateData as never)
+      .update(updateData as any)
       .eq('id', id)
       .select()
       .single();
@@ -89,7 +129,27 @@ export class NoteService {
       await this.updateNoteTags(id, data.tagIds);
     }
 
-    return note;
+    // Fetch full note with tags to return
+    const { data: fullNote, error: fetchError } = await this.supabase
+      .from('notes')
+      .select(`
+        *,
+        note_tags (
+          tag:tags (*)
+        )
+      `)
+      .eq('id', id)
+      .single();
+      
+    if (fetchError) throw fetchError;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const noteWithTags = fullNote as any;
+
+    return {
+      ...noteWithTags,
+      tags: noteWithTags.note_tags?.map((nt: any) => nt.tag) || []
+    };
   }
 
   async deleteNote(id: string) {
@@ -144,9 +204,10 @@ export class NoteService {
         tag_id: tagId
       }));
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await this.supabase
         .from('note_tags')
-        .insert(tagRecords as never);
+        .insert(tagRecords as any);
     }
   }
 }

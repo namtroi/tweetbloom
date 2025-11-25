@@ -10,18 +10,35 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Plus, Combine } from 'lucide-react'
 
+import { TagFilter } from '@/components/tags/tag-filter'
+import { useTagStore } from '@/store/use-tag-store'
+
 export function NoteTree() {
   const { data: notes, isLoading } = useNotes()
   const selectedNotes = useNoteStore((state) => state.selectedNotes)
   const clearSelection = useNoteStore((state) => state.clearSelection)
   const combineNotesMutation = useCombineNotes()
+  
+  // Tag filtering
+  const selectedTagFilter = useTagStore((state) => state.selectedTagFilter)
+  const isFiltering = selectedTagFilter.length > 0
 
   const [editorOpen, setEditorOpen] = useState(false)
   const [editingNote, setEditingNote] = useState<Note | null>(null)
   const [defaultParentId, setDefaultParentId] = useState<string | null>(null)
 
-  // Build tree structure
-  const noteTree = notes ? buildNoteTree(notes) : []
+  // Filter notes logic
+  const filteredNotes = isFiltering
+    ? notes?.filter(note => 
+        note.tags?.some(tag => selectedTagFilter.includes(tag.id))
+      ) || []
+    : notes
+
+  // Build tree structure (only if not filtering, or handle filtering differently)
+  // If filtering, we show a flat list of matched notes to avoid confusion
+  const displayNotes = isFiltering 
+    ? (filteredNotes || []) 
+    : (notes ? buildNoteTree(notes) : [])
 
   const handleEdit = (note: Note) => {
     setEditingNote(note)
@@ -112,28 +129,39 @@ export function NoteTree() {
 
       {/* Note Tree */}
       <ScrollArea className="flex-1">
-        <div className="space-y-2 p-4">
-          {noteTree.length === 0 ? (
+        <div className="space-y-4 p-4">
+          {/* Tag Filter */}
+          <TagFilter />
+
+          {displayNotes.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
-              <p className="text-muted-foreground">No notes yet</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Create your first note or save a chat as a note
+              <p className="text-muted-foreground">
+                {isFiltering ? 'No notes match the selected tags' : 'No notes yet'}
               </p>
-              <Button className="mt-4" onClick={handleCreateRoot}>
-                <Plus className="mr-2 h-4 w-4" />
-                Create First Note
-              </Button>
+              {!isFiltering && (
+                <>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Create your first note or save a chat as a note
+                  </p>
+                  <Button className="mt-4" onClick={handleCreateRoot}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create First Note
+                  </Button>
+                </>
+              )}
             </div>
           ) : (
-            noteTree.map((note) => (
-              <NoteItem
-                key={note.id}
-                note={note}
-                depth={1}
-                onEdit={handleEdit}
-                onAddChild={handleAddChild}
-              />
-            ))
+            <div className={isFiltering ? 'space-y-2' : 'space-y-2'}>
+              {displayNotes.map((note) => (
+                <NoteItem
+                  key={note.id}
+                  note={note}
+                  depth={1} // Always depth 1 if filtering (flat list)
+                  onEdit={handleEdit}
+                  onAddChild={handleAddChild}
+                />
+              ))}
+            </div>
           )}
         </div>
       </ScrollArea>
