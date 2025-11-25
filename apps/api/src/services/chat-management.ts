@@ -22,6 +22,12 @@ export class ChatManagementService {
       .single();
 
     if (error) throw error;
+
+    // Handle tags if provided
+    if (data.tagIds !== undefined) {
+      await this.updateChatTags(id, data.tagIds);
+    }
+
     return chat;
   }
 
@@ -32,5 +38,27 @@ export class ChatManagementService {
       .eq('id', id);
 
     if (error) throw error;
+  }
+
+  // Helper: Update chat tags
+  private async updateChatTags(chatId: string, tagIds: string[]) {
+    // Delete existing tags
+    await this.supabase
+      .from('chat_tags')
+      .delete()
+      .eq('chat_id', chatId);
+
+    // Insert new tags
+    if (tagIds.length > 0) {
+      const tagRecords = tagIds.map(tagId => ({
+        chat_id: chatId,
+        tag_id: tagId
+      }));
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await this.supabase
+        .from('chat_tags')
+        .insert(tagRecords as any);
+    }
   }
 }

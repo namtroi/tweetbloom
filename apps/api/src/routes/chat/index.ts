@@ -202,24 +202,34 @@ const chatRoutes: FastifyPluginAsync = async (fastify) => {
         const { id } = req.params as { id: string };
         const supabase = createUserClient(req.jwt!);
         
-        // Fetch chat with messages
+        // Fetch chat with messages and tags
         const { data: chat, error } = await supabase
             .from('chats')
-            .select('*, messages(*)')
+            .select(`
+                *,
+                messages(*),
+                chat_tags (
+                    tag:tags (*)
+                )
+            `)
             .eq('id', id)
             .single();
             
         if (error) throw error;
         
-        // Sort messages by created_at
+        // Sort messages by created_at and transform tags
         const chatAny = chat as any;
         if (chatAny && chatAny.messages) {
             chatAny.messages.sort((a: any, b: any) => 
                 new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
             );
         }
+
+        // Transform tags
+        chatAny.tags = chatAny.chat_tags?.map((ct: any) => ct.tag) || [];
+        delete chatAny.chat_tags;
         
-        return chat;
+        return chatAny;
     });
 
     // Update chat (rename, move folder)

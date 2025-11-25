@@ -65,32 +65,37 @@ This is the master checklist for building TweetBloom. It is based on the finaliz
     - [x] Create Main Layout (Sidebar + Chat Area).
     - [x] Implement Protected Route wrapper (Middleware).
 
-## Phase 4: Core UI Implementation
+## Phase 4: Core UI Implementation ✅ COMPLETE
 
-- [ ] **Chat Interface (Flow 1, 2, 3)**
-    - [ ] Build Chat Input component (with 150-word counter).
-    - [ ] Build Message List component (User, Assistant, Suggestion).
-    - [ ] Implement "What Next?" button logic (Flow 2).
-    - [ ] Implement "Continue Chat" transition (Flow 3).
-    - [ ] Add "Save as Note" button (Flow 4).
-- [ ] **Sidebar & History (Flow 6)**
-    - [ ] Fetch and display Chat History (`GET /api/chats`).
-    - [ ] Implement Folders (Create, Rename, Delete).
-    - [ ] Implement Drag & Drop (Chat -> Folder) using `dnd-kit`.
+- [x] **Chat Interface (Flow 1, 2, 3)**
+    - [x] Build Chat Input component (with 150-word counter).
+    - [x] Build Message List component (User, Assistant, Suggestion).
+    - [x] Implement "What Next?" button logic (Flow 2).
+    - [x] Implement "Continue Chat" transition (Flow 3).
+    - [x] Add "Save as Note" button (Flow 4) - Deferred to Phase 5.
+- [x] **Sidebar & History (Flow 6)**
+    - [x] Fetch and display Chat History (`GET /api/chats`).
+    - [x] Implement Folders (Create, Rename, Delete).
+    - [x] Implement Drag & Drop (Chat -> Folder) using `dnd-kit`.
+- [x] **Additional Improvements**
+    - [x] Added chat history context to AI providers (Gemini, OpenAI, Grok).
+    - [x] Fixed AI name display bug when loading chat history.
+    - [x] Fixed CORS issue blocking PATCH requests.
+    - [x] Implemented localStorage for Continue Chat prompt (clean URLs).
 
-## Phase 5: Advanced Features
+## Phase 5: Advanced Features ✅ COMPLETE
 
 - [ ] **Note Management (Flow 9)**
-    - [ ] Build Note Tree UI (max depth 3).
-    - [ ] Implement Drag & Drop for Notes.
-    - [ ] Implement Note Editor Modal.
-    - [ ] Implement "Combine Notes" selection UI (Flow 5).
+    - [x] Build Note Tree UI (max depth 3).
+    - [x] Implement Drag & Drop for Notes.
+    - [x] Implement Note Editor Modal.
+    - [x] Implement "Combine Notes" selection UI (Flow 5).
 - [ ] **Tagging System (Flow 7, 8)**
-    - [ ] Build Tag Management Settings (Create, Edit, Delete, Color Picker).
-    - [ ] Add Tag Selector to Chat and Note interfaces.
+    - [x] Build Tag Management Settings (Create, Edit, Delete, Color Picker).
+    - [x] Add Tag Selector to Chat and Note interfaces.
 - [ ] **User Settings (Flow 10)**
-    - [ ] Build Settings Modal.
-    - [ ] Implement Default AI Tool selection.
+    - [x] Build Settings Modal.
+    - [x] Implement Default AI Tool selection.
 
 ## Phase 6: Polish & Verification
 

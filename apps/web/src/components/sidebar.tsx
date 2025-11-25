@@ -21,10 +21,21 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  StickyNote,
 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { ChatList } from "@/components/sidebar/chat-list"
+
+import dynamic from 'next/dynamic'
+import { Settings } from "lucide-react"
+
+import { SearchCommand } from "@/components/search/search-command"
+
+const SettingsModal = dynamic(() => import('@/components/settings/settings-modal').then(mod => mod.SettingsModal), {
+  ssr: false,
+  loading: () => null
+})
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,6 +43,7 @@ export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const [settingsOpen, setSettingsOpen] = React.useState(false)
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -47,6 +59,11 @@ export function Sidebar({ className }: SidebarProps) {
             <LayoutDashboard className="h-5 w-5" />
             TweetBloom
           </div>
+          
+          <div className="px-4 mb-2">
+            <SearchCommand />
+          </div>
+
           <div className="space-y-1">
             <Button
               variant="default"
@@ -56,6 +73,28 @@ export function Sidebar({ className }: SidebarProps) {
               <MessageSquarePlus className="mr-2 h-4 w-4" />
               New Chat
             </Button>
+          </div>
+          
+          {/* Navigation Links */}
+          <div className="mt-4 space-y-1">
+            <Link href="/chat">
+              <Button
+                variant={pathname.startsWith("/chat") ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <MessageSquarePlus className="mr-2 h-4 w-4" />
+                Chats
+              </Button>
+            </Link>
+            <Link href="/notes">
+              <Button
+                variant={pathname.startsWith("/notes") ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <StickyNote className="mr-2 h-4 w-4" />
+                Notes
+              </Button>
+            </Link>
           </div>
         </div>
         
@@ -92,6 +131,11 @@ export function Sidebar({ className }: SidebarProps) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
@@ -99,6 +143,7 @@ export function Sidebar({ className }: SidebarProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
     </div>
   )
 }

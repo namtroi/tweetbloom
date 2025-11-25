@@ -57,7 +57,7 @@ export function useSendMessage() {
       
       // CRITICAL FIX: Set currentChatId if this is a new chat
       if (response.chatId && !currentChatId) {
-        console.log('✅ Setting currentChatId to:', response.chatId);
+
         setCurrentChat(response.chatId);
       }
       
@@ -161,6 +161,12 @@ export function useContinueChat() {
     
     onSuccess: (data) => {
       setLoading(false)
+      
+      // Store synthesized prompt in localStorage
+      if (data.new_prompt) {
+        localStorage.setItem('continue_chat_prompt', data.new_prompt)
+      }
+      
       // Reset store for new chat
       reset()
       toast.success('Chat synthesized!', {
@@ -176,5 +182,28 @@ export function useContinueChat() {
         description: error.message,
       })
     },
+  })
+}
+
+/**
+ * Hook for updating chat (title, folder, tags)
+ */
+export function useUpdateChat() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: { title?: string; folderId?: string | null; tagIds?: string[] } }) => {
+      // Dynamic import to avoid circular dependency if any
+      const { updateChat } = await import('@/lib/api/chat')
+      return updateChat(id, data)
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['chat', data.id] })
+      queryClient.invalidateQueries({ queryKey: ['chats'] })
+      toast.success('Chat updated')
+    },
+    onError: (error: Error) => {
+      toast.error('Failed to update chat', { description: error.message })
+    }
   })
 }

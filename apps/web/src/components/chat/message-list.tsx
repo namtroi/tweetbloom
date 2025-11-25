@@ -18,6 +18,8 @@ interface MessageListProps {
   isEmpty?: boolean
   onAcceptSuggestion?: (content: string) => void
   onEditSuggestion?: (content: string) => void
+  onSaveAsNote?: (messageId: string) => void
+  savingNoteId?: string | null
 }
 
 export function MessageList({
@@ -26,6 +28,8 @@ export function MessageList({
   isEmpty = false,
   onAcceptSuggestion,
   onEditSuggestion,
+  onSaveAsNote,
+  savingNoteId = null,
 }: MessageListProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -88,6 +92,8 @@ export function MessageList({
             message={message}
             onAcceptSuggestion={onAcceptSuggestion}
             onEditSuggestion={onEditSuggestion}
+            onSaveAsNote={onSaveAsNote ? () => onSaveAsNote(message.id) : undefined}
+            isSavingNote={savingNoteId === message.id}
           />
         ))}
         

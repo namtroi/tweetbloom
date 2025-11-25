@@ -6,7 +6,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Sparkles, Copy, Check, Edit, ThumbsUp } from 'lucide-react'
+import { Sparkles, Copy, Check, Edit, ThumbsUp, FileText, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -18,7 +18,9 @@ interface MessageItemProps {
   message: Message
   onAcceptSuggestion?: (content: string) => void
   onEditSuggestion?: (content: string) => void
+  onSaveAsNote?: () => void
   showActions?: boolean
+  isSavingNote?: boolean
 }
 
 // Helper function to get AI display name
@@ -38,7 +40,9 @@ export function MessageItem({
   message,
   onAcceptSuggestion,
   onEditSuggestion,
+  onSaveAsNote,
   showActions = true,
+  isSavingNote = false,
 }: MessageItemProps) {
   const [copied, setCopied] = useState(false)
 
@@ -189,7 +193,27 @@ export function MessageItem({
                 </>
               )}
             </Button>
-            {/* Save as Note button will be added in Phase 5 */}
+            
+            {/* Save as Note button */}
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={onSaveAsNote}
+              disabled={isSavingNote}
+              className="h-8"
+            >
+              {isSavingNote ? (
+                <>
+                  <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <FileText className="mr-2 h-3 w-3" />
+                  Save as Note
+                </>
+              )}
+            </Button>
           </div>
         )}
       </div>
