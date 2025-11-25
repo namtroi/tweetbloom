@@ -19,6 +19,7 @@ interface QueryBuilder {
 
 class MockQueryBuilder implements QueryBuilder {
   private table: string;
+  private userId: string;
   private hasInsert: boolean = false;
   private hasUpdate: boolean = false;
   private hasDelete: boolean = false;
@@ -30,8 +31,9 @@ class MockQueryBuilder implements QueryBuilder {
   private limitCount: number = 1000;
   private singleMode: boolean = false;
 
-  constructor(table: string) {
+  constructor(table: string, userId: string) {
     this.table = table;
+    this.userId = userId;
   }
 
   select(columns: string = '*'): QueryBuilder {
@@ -210,23 +212,23 @@ class MockQueryBuilder implements QueryBuilder {
           return note || null;
         }
         
-        if (userFilter) {
-          results = testStore.getNotesByUser(userFilter.value);
-        }
+        // Simulate RLS: automatically filter by current user if no explicit filter
+        const targetUserId = userFilter ? userFilter.value : this.userId;
+        results = testStore.getNotesByUser(targetUserId);
         break;
       }
       case 'folders': {
         const userFilter = this.filters.find(f => f.column === 'user_id');
-        if (userFilter) {
-          results = testStore.getFoldersByUser(userFilter.value);
-        }
+        // Simulate RLS: automatically filter by current user if no explicit filter
+        const targetUserId = userFilter ? userFilter.value : this.userId;
+        results = testStore.getFoldersByUser(targetUserId);
         break;
       }
       case 'tags': {
         const userFilter = this.filters.find(f => f.column === 'user_id');
-        if (userFilter) {
-          results = testStore.getTagsByUser(userFilter.value);
-        }
+        // Simulate RLS: automatically filter by current user if no explicit filter
+        const targetUserId = userFilter ? userFilter.value : this.userId;
+        results = testStore.getTagsByUser(targetUserId);
         break;
       }
     }
@@ -250,11 +252,11 @@ class MockQueryBuilder implements QueryBuilder {
 
 export function createMockSupabaseClient(userId: string) {
   return {
-    from: (table: string) => new MockQueryBuilder(table),
+    from: (table: string) => new MockQueryBuilder(table, userId),
     auth: {
       getUser: async () => ({
         data: {
-          user: testStore.getUser(userId) || testStore.createUser(`test-${userId}@example.com`),
+          user: testStore.getUser(userId) || testStore.createUser(`test-${userId}@example.com`, userId),
         },
         error: null,
       }),

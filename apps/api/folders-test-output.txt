@@ -1,0 +1,90 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.0.13 [39m[90mD:/12-Antigravity/ai-prompt/apps/api[39m
+
+ [31mΓ¥»[39m src/routes/__tests__/folders.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 61[2mms[22m[39m
+       [32mΓ£ô[39m should create a new folder[32m 19[2mms[22m[39m
+       [32mΓ£ô[39m should reject folder with empty name[32m 2[2mms[22m[39m
+       [32mΓ£ô[39m should return 401 without authorization[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should return list of folders[39m[32m 4[2mms[22m[39m
+       [32mΓ£ô[39m should return empty array when no folders exist[32m 1[2mms[22m[39m
+       [32mΓ£ô[39m should return 401 without authorization[32m 0[2mms[22m[39m
+       [32mΓ£ô[39m should update folder name[32m 3[2mms[22m[39m
+       [32mΓ£ô[39m should return 400 for invalid UUID[32m 1[2mms[22m[39m
+       [32mΓ£ô[39m should reject empty name[32m 1[2mms[22m[39m
+       [32mΓ£ô[39m should delete a folder[32m 1[2mms[22m[39m
+       [32mΓ£ô[39m should return 400 for invalid UUID[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should return 401 without authorization[39m[32m 3[2mms[22m[39m
+node.exe : 
+At C:\Users\namtr\AppData\Roaming\npm\pnpm.ps1:24 
+char:5
++     & "node$exe"  
+"$basedir/node_modules/pnpm/bin/pnpm.cjs" $args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String 
+   ) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m[1m[41m Failed 
+Tests 2 [49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m 
+src/routes/__tests__/folders.test.ts[2m > 
+[22mFolder Routes - CRUD Operations[2m > [22mGET 
+/api/folders[2m > [22mshould return list of folders
+[31m[1mAssertionError[22m: expected 0 to be 
+greater than 0[39m
+[36m [2mΓ¥»[22m src/routes/__tests__/folders.test.
+ts:[2m96:27[22m[39m
+    [90m 94| [39m      [35mconst[39m body 
+[33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(
+response[33m.[39mbody)[33m;[39m
+    [90m 95| [39m      [34mexpect[39m([33mArray
+[39m[33m.[39m[34misArray[39m(body))[33m.[39m[3
+4mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m 96| [39m      [34mexpect[39m(body[33m.
+[39mlength)[33m.[39m[34mtoBeGreaterThan[39m([34m
+0[39m)[33m;[39m
+    [90m   | [39m                          
+[31m^[39m
+    [90m 97| [39m    })[33m;[39m
+    [90m 98| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/2]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/routes/__tests__/folders.test.ts[2m > 
+[22mFolder Routes - CRUD Operations[2m > 
+[22mDELETE /api/folders/:id[2m > [22mshould 
+return 401 without authorization
+[31m[1mAssertionError[22m: expected 400 to be 401 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 401[39m
+[31m+ 400[39m
+
+[36m [2mΓ¥»[22m src/routes/__tests__/folders.test.
+ts:[2m253:35[22m[39m
+    [90m251| [39m      })[33m;[39m
+    [90m252| [39m
+    [90m253| [39m      [34mexpect[39m(response[3
+3m.[39mstatusCode)[33m.[39m[34mtoBe[39m([34m401
+[39m)[33m;[39m
+    [90m   | [39m                                  
+[31m^[39m
+    [90m254| [39m    })[33m;[39m
+    [90m255| [39m  })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/2]ΓÄ»[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (12)[39m
+[2m   Start at [22m 08:32:04
+[2m   Duration [22m 640ms[2m (transform 215ms, setup 98ms, collect 346ms, tests 61ms, environment 0ms, prepare 11ms)[22m
+

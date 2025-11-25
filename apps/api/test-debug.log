@@ -1,0 +1,282 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.0.13 [39m[90mD:/12-Antigravity/ai-prompt/apps/api[39m
+
+node.exe : [90mstderr[2m | src/config/__tests__/env.test.ts[2m > [22m[2mEnvironment Validation[2m > [22m[2mvalidateEnv[2m > [22m[2mshould fail on missing SUPABASE_URL
+At C:\Users\namtr\AppData\Roaming\npm\pnpm.ps1:24 char:5
++     & "node$exe"  "$basedir/node_modules/pnpm/bin/pnpm.cjs" $args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([90mstd    err[2m...ng SUPABASE_URL:String) [], RemoteExcep    tion
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[22m[39mΓ¥î Environment validation failed:
+
+  Γ¥î SUPABASE_URL: Invalid input: expected string, received undefined
+
+≡ƒÆí Please check your .env file and ensure all required variables are set.
+   See .env.example for reference.
+
+
+[90mstderr[2m | src/config/__tests__/env.test.ts[2m > [22m[2mEnvironment Validation[2m > [22m[2mvalidateEnv[2m > [22m[2mshould fail on missing GEMINI_API_KEY
+[22m[39mΓ¥î Environment validation failed:
+
+  Γ¥î GEMINI_API_KEY: Invalid input: expected string, received undefined
+
+≡ƒÆí Please check your .env file and ensure all required variables are set.
+   See .env.example for reference.
+
+
+[90mstderr[2m | src/config/__tests__/env.test.ts[2m > [22m[2mEnvironment Validation[2m > [22m[2mvalidateEnv[2m > [22m[2mshould fail on invalid SUPABASE_URL format
+[22m[39mΓ¥î Environment validation failed:
+
+  Γ¥î SUPABASE_URL: SUPABASE_URL must be a valid URL
+
+≡ƒÆí Please check your .env file and ensure all required variables are set.
+   See .env.example for reference.
+
+
+[90mstderr[2m | src/config/__tests__/env.test.ts[2m > [22m[2mEnvironment Validation[2m > [22m[2mvalidateEnv[2m > [22m[2mshould fail on invalid NODE_ENV
+[22m[39mΓ¥î Environment validation failed:
+
+  Γ¥î NODE_ENV: Invalid option: expected one of "development"|"production"|"test"
+
+≡ƒÆí Please check your .env file and ensure all required variables are set.
+   See .env.example for reference.
+
+
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould validate correct environment variables[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould apply default values[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould allow optional AI provider keys[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould fail on missing SUPABASE_URL[32m 4[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould fail on missing GEMINI_API_KEY[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould fail on invalid SUPABASE_URL format[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould parse PORT as number[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould validate NODE_ENV enum[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/config/__tests__/env.test.ts[2m > [22mEnvironment Validation[2m > [22mvalidateEnv[2m > [22mshould fail on invalid NODE_ENV[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mPOST /api/folders[2m > [22mshould create a new folder[32m 28[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mPOST /api/folders[2m > [22mshould reject folder with empty name[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mPOST /api/folders[2m > [22mshould return 401 without authorization[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mGET /api/folders[2m > [22mshould return list of folders[32m 5[2mms[22m[39m
+[31m   ΓåÆ expected 0 to be greater than 0[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mGET /api/folders[2m > [22mshould return empty array when no folders exist[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mGET /api/folders[2m > [22mshould return 401 without authorization[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mPATCH /api/folders/:id[2m > [22mshould update folder name[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mPATCH /api/folders/:id[2m > [22mshould return 400 for invalid UUID[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mPATCH /api/folders/:id[2m > [22mshould reject empty name[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mDELETE /api/folders/:id[2m > [22mshould delete a folder[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mDELETE /api/folders/:id[2m > [22mshould return 400 for invalid UUID[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mDELETE /api/folders/:id[2m > [22mshould return 401 without authorization[32m 3[2mms[22m[39m
+[31m   ΓåÆ expected 400 to be 401 // Object.is equality[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould create a new tag with valid hex color[32m 26[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould accept lowercase hex color[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould reject tag with invalid hex color (missing #)[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould reject tag with invalid hex color (wrong length)[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould reject tag with invalid hex color (invalid characters)[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould reject tag with empty name[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould reject tag with name > 50 chars[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPOST /api/tags[2m > [22mshould return 401 without authorization[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mGET /api/tags[2m > [22mshould return list of tags[32m 6[2mms[22m[39m
+[31m   ΓåÆ expected 0 to be greater than 0[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mGET /api/tags[2m > [22mshould return empty array when no tags exist[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mGET /api/tags[2m > [22mshould return 401 without authorization[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPATCH /api/tags/:id[2m > [22mshould update tag name[32m 3[2mms[22m[39m
+[31m   ΓåÆ expected undefined to be '#FF5733' // Object.is equality[39m
+ [31m├ù[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPATCH /api/tags/:id[2m > [22mshould update tag color[32m 2[2mms[22m[39m
+[31m   ΓåÆ expected undefined to be 'Test' // Object.is equality[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPATCH /api/tags/:id[2m > [22mshould update both name and color[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPATCH /api/tags/:id[2m > [22mshould return 400 for invalid UUID[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPATCH /api/tags/:id[2m > [22mshould reject invalid hex color on update[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mDELETE /api/tags/:id[2m > [22mshould delete a tag[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mDELETE /api/tags/:id[2m > [22mshould return 400 for invalid UUID[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mDELETE /api/tags/:id[2m > [22mshould return 401 without authorization[32m 2[2mms[22m[39m
+[31m   ΓåÆ expected 400 to be 401 // Object.is equality[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mPOST /api/notes[2m > [22mshould create a new note[32m 26[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mPOST /api/notes[2m > [22mshould create a note with parent (nested note)[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mPOST /api/notes[2m > [22mshould reject note with empty content[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mPOST /api/notes[2m > [22mshould reject note with content > 1200 chars[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mPOST /api/notes[2m > [22mshould return 401 without authorization[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mGET /api/notes[2m > [22mshould return list of notes[32m 4[2mms[22m[39m
+[31m   ΓåÆ expected 0 to be greater than 0[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mGET /api/notes[2m > [22mshould return 401 without authorization[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mPATCH /api/notes/:id[2m > [22mshould update note content[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mPATCH /api/notes/:id[2m > [22mshould return 400 for invalid UUID[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mDELETE /api/notes/:id[2m > [22mshould delete a note[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mDELETE /api/notes/:id[2m > [22mshould return 400 for invalid UUID[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - Summarize & Combine[2m > [22mPOST /api/notes/summarize[2m > [22mshould summarize chat to note[32m 11[2mms[22m[39m
+[31m   ΓåÆ expected 500 to be 200 // Object.is equality[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - Summarize & Combine[2m > [22mPOST /api/notes/summarize[2m > [22mshould return 400 for invalid chatId[32m 1[2mms[22m[39m
+ [31m├ù[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - Summarize & Combine[2m > [22mPOST /api/notes/combine[2m > [22mshould combine multiple notes[32m 2[2mms[22m[39m
+[31m   ΓåÆ expected 500 to be 200 // Object.is equality[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - Summarize & Combine[2m > [22mPOST /api/notes/combine[2m > [22mshould reject combining less than 2 notes[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - Summarize & Combine[2m > [22mPOST /api/notes/combine[2m > [22mshould reject combining more than 7 notes[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould create a new chat and return AI response for good prompt[32m 32[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould return Bloom Buddy suggestion for bad prompt[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould bypass Bloom Buddy when override_ai_check is true[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould reject prompt with too many words (>150)[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould reject prompt with too many characters (>1200)[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould use specified AI tool when provided[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould return 401 when no authorization header[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat[2m > [22mshould include chat history in AI context for existing chat[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat/evaluate[2m > [22mshould return next prompt suggestion based on chat history[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - POST /api/chat/evaluate[2m > [22mshould return 400 for invalid chatId[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - GET /api/chat[2m > [22mshould return list of chats[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - GET /api/chat/:id[2m > [22mshould return chat with messages[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m src/routes/__tests__/chat.test.ts[2m > [22mChat Routes - GET /api/chat/:id[2m > [22mshould return 400 for invalid UUID[32m 1[2mms[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m[1m[41m Failed Tests 9 [49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mGET /api/folders[2m > [22mshould return list of folders
+[31m[1mAssertionError[22m: expected 0 to be greater than 0[39m
+[36m [2mΓ¥»[22m src/routes/__tests__/folders.test.ts:[2m96:27[22m[39m
+    [90m 94| [39m      [35mconst[39m body [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(response[33m.[39mbody)[33m;[39m
+    [90m 95| [39m      [34mexpect[39m([33mArray[39m[33m.[39m[34misArray[39m(body))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m 96| [39m      [34mexpect[39m(body[33m.[39mlength)[33m.[39m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m 97| [39m    })[33m;[39m
+    [90m 98| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/folders.test.ts[2m > [22mFolder Routes - CRUD Operations[2m > [22mDELETE /api/folders/:id[2m > [22mshould return 401 without authorization
+[31m[1mAssertionError[22m: expected 400 to be 401 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 401[39m
+[31m+ 400[39m
+
+[36m [2mΓ¥»[22m src/routes/__tests__/folders.test.ts:[2m253:35[22m[39m
+    [90m251| [39m      })[33m;[39m
+    [90m252| [39m
+    [90m253| [39m      [34mexpect[39m(response[33m.[39mstatusCode)[33m.[39m[34mtoBe[39m([34m401[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m254| [39m    })[33m;[39m
+    [90m255| [39m  })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - CRUD Operations[2m > [22mGET /api/notes[2m > [22mshould return list of notes
+[31m[1mAssertionError[22m: expected 0 to be greater than 0[39m
+[36m [2mΓ¥»[22m src/routes/__tests__/notes.test.ts:[2m144:27[22m[39m
+    [90m142| [39m      [35mconst[39m body [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(response[33m.[39mbody)[33m;[39m
+    [90m143| [39m      [34mexpect[39m([33mArray[39m[33m.[39m[34misArray[39m(body))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m144| [39m      [34mexpect[39m(body[33m.[39mlength)[33m.[39m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m145| [39m    })[33m;[39m
+    [90m146| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - Summarize & Combine[2m > [22mPOST /api/notes/summarize[2m > [22mshould summarize chat to note
+[31m[1mAssertionError[22m: expected 500 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/routes/__tests__/notes.test.ts:[2m291:35[22m[39m
+    [90m289| [39m      })[33m;[39m
+    [90m290| [39m
+    [90m291| [39m      [34mexpect[39m(response[33m.[39mstatusCode)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m292| [39m      [35mconst[39m body [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(response[33m.[39mbody)[33m;[39m
+    [90m293| [39m      [34mexpect[39m(body[33m.[39mnoteId)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/notes.test.ts[2m > [22mNotes Routes - Summarize & Combine[2m > [22mPOST /api/notes/combine[2m > [22mshould combine multiple notes
+[31m[1mAssertionError[22m: expected 500 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/routes/__tests__/notes.test.ts:[2m353:35[22m[39m
+    [90m351| [39m      })[33m;[39m
+    [90m352| [39m
+    [90m353| [39m      [34mexpect[39m(response[33m.[39mstatusCode)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m354| [39m      [35mconst[39m body [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(response[33m.[39mbody)[33m;[39m
+    [90m355| [39m      [34mexpect[39m(body[33m.[39mnoteId)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[5/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mGET /api/tags[2m > [22mshould return list of tags
+[31m[1mAssertionError[22m: expected 0 to be greater than 0[39m
+[36m [2mΓ¥»[22m src/routes/__tests__/tags.test.ts:[2m183:27[22m[39m
+    [90m181| [39m      [35mconst[39m body [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(response[33m.[39mbody)[33m;[39m
+    [90m182| [39m      [34mexpect[39m([33mArray[39m[33m.[39m[34misArray[39m(body))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m183| [39m      [34mexpect[39m(body[33m.[39mlength)[33m.[39m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m184| [39m    })[33m;[39m
+    [90m185| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[6/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPATCH /api/tags/:id[2m > [22mshould update tag name
+[31m[1mAssertionError[22m: expected undefined to be '#FF5733' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"#FF5733"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2mΓ¥»[22m src/routes/__tests__/tags.test.ts:[2m243:26[22m[39m
+    [90m241| [39m      [35mconst[39m body [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(response[33m.[39mbody)[33m;[39m
+    [90m242| [39m      [34mexpect[39m(body[33m.[39mname)[33m.[39m[34mtoBe[39m([32m'Updated'[39m)[33m;[39m
+    [90m243| [39m      [34mexpect[39m(body[33m.[39mcolor)[33m.[39m[34mtoBe[39m([32m'#FF5733'[39m)[33m;[39m [90m// Color unchanged[39m
+    [90m   | [39m                         [31m^[39m
+    [90m244| [39m    })[33m;[39m
+    [90m245| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[7/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mPATCH /api/tags/:id[2m > [22mshould update tag color
+[31m[1mAssertionError[22m: expected undefined to be 'Test' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"Test"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2mΓ¥»[22m src/routes/__tests__/tags.test.ts:[2m277:25[22m[39m
+    [90m275| [39m      [35mconst[39m body [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(response[33m.[39mbody)[33m;[39m
+    [90m276| [39m      [34mexpect[39m(body[33m.[39mcolor)[33m.[39m[34mtoBe[39m([32m'#00FF00'[39m)[33m;[39m
+    [90m277| [39m      [34mexpect[39m(body[33m.[39mname)[33m.[39m[34mtoBe[39m([32m'Test'[39m)[33m;[39m [90m// Name unchanged[39m
+    [90m   | [39m                        [31m^[39m
+    [90m278| [39m    })[33m;[39m
+    [90m279| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[8/9]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tests__/tags.test.ts[2m > [22mTag Routes - CRUD Operations[2m > [22mDELETE /api/tags/:id[2m > [22mshould return 401 without authorization
+[31m[1mAssertionError[22m: expected 400 to be 401 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 401[39m
+[31m+ 400[39m
+
+[36m [2mΓ¥»[22m src/routes/__tests__/tags.test.ts:[2m413:35[22m[39m
+    [90m411| [39m      })[33m;[39m
+    [90m412| [39m
+    [90m413| [39m      [34mexpect[39m(response[33m.[39mstatusCode)[33m.[39m[34mtoBe[39m([34m401[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m414| [39m    })[33m;[39m
+    [90m415| [39m  })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[9/9]ΓÄ»[22m[39m
+
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[31m9 failed[39m[22m[2m | [22m[1m[32m60 passed[39m[22m[90m (69)[39m
+[2m   Start at [22m 14:26:35
+[2m   Duration [22m 1.00s[2m (transform 1.10s, setup 604ms, collect 2.45s, tests 380ms, environment 1ms, prepare 81ms)[22m
+
