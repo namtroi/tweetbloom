@@ -140,6 +140,10 @@ class MockQueryBuilder implements QueryBuilder {
         return testStore.updateChat(idFilter.value, this.updateData);
       case 'notes':
         return testStore.updateNote(idFilter.value, this.updateData);
+      case 'folders':
+        return testStore.updateFolder(idFilter.value, this.updateData);
+      case 'tags':
+        return testStore.updateTag(idFilter.value, this.updateData);
       default:
         return this.updateData;
     }

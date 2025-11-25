@@ -213,6 +213,19 @@ class InMemoryStore {
       .filter(folder => folder.user_id === userId);
   }
 
+  updateFolder(id: string, data: Partial<Folder>): Folder | undefined {
+    const folder = this.folders.get(id);
+    if (!folder) return undefined;
+    
+    const updated = {
+      ...folder,
+      ...data,
+      updated_at: new Date().toISOString(),
+    };
+    this.folders.set(id, updated);
+    return updated;
+  }
+
   deleteFolder(id: string): boolean {
     return this.folders.delete(id);
   }
@@ -235,6 +248,18 @@ class InMemoryStore {
   getTagsByUser(userId: string): Tag[] {
     return Array.from(this.tags.values())
       .filter(tag => tag.user_id === userId);
+  }
+
+  updateTag(id: string, data: Partial<Tag>): Tag | undefined {
+    const tag = this.tags.get(id);
+    if (!tag) return undefined;
+    
+    const updated = {
+      ...tag,
+      ...data,
+    };
+    this.tags.set(id, updated);
+    return updated;
   }
 
   deleteTag(id: string): boolean {
