@@ -93,4 +93,29 @@ export class MockBloomBuddyService {
       new_prompt: `Continue our discussion about: ${topics.substring(0, 100)}...`,
     };
   }
+
+  async summarizeChat(chatHistory: any[]): Promise<string> {
+    if (chatHistory.length === 0) {
+      return 'Empty conversation';
+    }
+
+    // Extract key points from conversation
+    const userMessages = chatHistory
+      .filter(msg => msg.role === 'user')
+      .map(msg => msg.content);
+    
+    const assistantMessages = chatHistory
+      .filter(msg => msg.role === 'assistant')
+      .map(msg => msg.content);
+
+    return `Summary of conversation:\n\nUser asked about: ${userMessages.join(', ')}\n\nKey points discussed: ${assistantMessages.join(' ')}`.substring(0, 500);
+  }
+
+  async combineNotes(notes: string[]): Promise<string> {
+    if (notes.length === 0) {
+      return 'No notes to combine';
+    }
+
+    return `Combined notes:\n\n${notes.map((note, i) => `${i + 1}. ${note}`).join('\n\n')}`;
+  }
 }

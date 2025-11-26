@@ -11,6 +11,7 @@ interface QueryBuilder {
   update: (data: any) => QueryBuilder;
   delete: () => QueryBuilder;
   eq: (column: string, value: any) => QueryBuilder;
+  in: (column: string, values: any[]) => QueryBuilder;
   order: (column: string, options?: any) => QueryBuilder;
   limit: (count: number) => QueryBuilder;
   single: () => Promise<{ data: any; error: null }>;
@@ -60,6 +61,12 @@ class MockQueryBuilder implements QueryBuilder {
 
   eq(column: string, value: any): QueryBuilder {
     this.filters.push({ column, value });
+    return this;
+  }
+
+  in(column: string, values: any[]): QueryBuilder {
+    // Store as special filter type for .in() queries
+    this.filters.push({ column, value: values, isIn: true } as any);
     return this;
   }
 
@@ -210,6 +217,16 @@ class MockQueryBuilder implements QueryBuilder {
       case 'notes': {
         const userFilter = this.filters.find(f => f.column === 'user_id');
         const idFilter = this.filters.find(f => f.column === 'id');
+        const inFilter = this.filters.find((f: any) => f.column === 'id' && f.isIn);
+        
+        if (inFilter) {
+          // Handle .in() query - return multiple notes by IDs
+          const noteIds = (inFilter as any).value as string[];
+          results = noteIds
+            .map(id => testStore.getNote(id))
+            .filter(note => note !== undefined) as any[];
+          break;
+        }
         
         if (idFilter) {
           const note = testStore.getNote(idFilter.value);

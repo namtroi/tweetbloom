@@ -1,0 +1,163 @@
+﻿
+> api@0.0.0 test D:\12-Antigravity\ai-prompt\apps\api
+> vitest "debug-notes-detail.test.ts"
+
+
+[1m[44m DEV [49m[22m [34mv4.0.13 [39m[90mD:/12-Antigravity/ai-prompt/apps/api[39m
+
+[90mstdout[2m | src/routes/__tests__/debug-notes-detail.test.ts[2m > [22m[2mDebug Notes - Detailed Logging[2m > [22m[2mTEST 1: should summarize chat to note
+[22m[39m
+=== Creating Chat ===
+
+[90mstdout[2m | src/routes/__tests__/debug-notes-detail.test.ts[2m > [22m[2mDebug Notes - Detailed Logging[2m > [22m[2mTEST 1: should summarize chat to note
+[22m[39mChat Status: [33m200[39m
+Chat ID: 67b91a02-2629-405d-b20d-97fec8279b0a
+
+=== Calling Summarize ===
+
+node.exe : [90mstderr[2m | src/routes/__
+tests__/debug-notes-detail.test.ts[2m > 
+[22m[2mDebug Notes - Detailed 
+Logging[2m > [22m[2mTEST 1: should 
+summarize chat to note
+At C:\Users\namtr\AppData\Roaming\npm\pnpm
+.ps1:24 char:5
++     & "node$exe"  
+"$basedir/node_modules/pnpm/bin/pnpm.cjs" 
+$args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecifie 
+   d: ([90mstderr[2m...ze chat to note  
+  :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeComma 
+   ndError
+ 
+[22m[39m
+Γ¥î GOT 500 ERROR!
+Error details: {
+  "statusCode": 500,
+  "error": "Internal Server Error",
+  "message": "[\n  {\n    \"expected\": 
+\"string\",\n    \"code\": 
+\"invalid_type\",\n    \"path\": [\n      
+\"parent_id\"\n    ],\n    \"message\": 
+\"Invalid input: expected string, 
+received undefined\"\n  }\n]"
+}
+
+[90mstdout[2m | src/routes/__tests__/debug-notes-detail.test.ts[2m > [22m[2mDebug Notes - Detailed Logging[2m > [22m[2mTEST 1: should summarize chat to note
+[22m[39mSummarize Status: [33m500[39m
+Summarize Response: {"statusCode":500,"error":"Internal Server Error","message":"[\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"parent_id\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"}
+
+[90mstdout[2m | src/routes/__tests__/debug-notes-detail.test.ts[2m > [22m[2mDebug Notes - Detailed Logging[2m > [22m[2mTEST 2: should combine multiple notes
+[22m[39m
+=== Creating Notes ===
+
+[90mstdout[2m | src/routes/__tests__/debug-notes-detail.test.ts[2m > [22m[2mDebug Notes - Detailed Logging[2m > [22m[2mTEST 2: should combine multiple notes
+[22m[39mNote 1 ID: a0ba4b9b-4f13-47e5-be8f-786e4950b221
+Note 2 ID: d905e029-8b75-45fc-acc0-7e766c8c006f
+
+=== Calling Combine ===
+
+[90mstderr[2m | src/routes/__tests__/deb
+ug-notes-detail.test.ts[2m > 
+[22m[2mDebug Notes - Detailed 
+Logging[2m > [22m[2mTEST 2: should 
+combine multiple notes
+[22m[39m
+Γ¥î GOT 500 ERROR!
+Error details: {
+  "statusCode": 500,
+  "error": "Internal Server Error",
+  "message": "[\n  {\n    \"expected\": 
+\"string\",\n    \"code\": 
+\"invalid_type\",\n    \"path\": [\n      
+\"parent_id\"\n    ],\n    \"message\": 
+\"Invalid input: expected string, 
+received undefined\"\n  }\n]"
+}
+
+[90mstdout[2m | src/routes/__tests__/debug-notes-detail.test.ts[2m > [22m[2mDebug Notes - Detailed Logging[2m > [22m[2mTEST 2: should combine multiple notes
+[22m[39mCombine Status: [33m500[39m
+Combine Response: {"statusCode":500,"error":"Internal Server Error","message":"[\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"parent_id\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"}
+
+ [31mΓ¥»[39m src/routes/__tests__/debug-notes-detail.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 61[2mms[22m[39m
+[31m     [31m├ù[31m TEST 1: should summarize chat to note[39m[32m 32[2mms[22m[39m
+[31m     [31m├ù[31m TEST 2: should combine multiple notes[39m[32m 5[2mms[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m[1m[41m 
+Failed Tests 2 
+[49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tes
+ts__/debug-notes-detail.test.ts[2m > 
+[22mDebug Notes - Detailed Logging[2m > 
+[22mTEST 1: should summarize chat to note
+[31m[1mAssertionError[22m: expected 
+500 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/routes/__tests__/de
+bug-notes-detail.test.ts:[2m58:33[22m[3
+9m
+    [90m 56| [39m    }
+    [90m 57| [39m
+    [90m 58| [39m    [34mexpect[39m(re
+sponse[33m.[39mstatusCode)[33m.[39m[3
+4mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                       
+         [31m^[39m
+    [90m 59| [39m  })[33m;[39m
+    [90m 60| [39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/
+2]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/routes/__tes
+ts__/debug-notes-detail.test.ts[2m > 
+[22mDebug Notes - Detailed Logging[2m > 
+[22mTEST 2: should combine multiple notes
+[31m[1mAssertionError[22m: expected 
+500 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/routes/__tests__/de
+bug-notes-detail.test.ts:[2m115:33[22m[
+39m
+    [90m113| [39m    }
+    [90m114| [39m
+    [90m115| [39m    [34mexpect[39m(re
+sponse[33m.[39mstatusCode)[33m.[39m[3
+4mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                       
+         [31m^[39m
+    [90m116| [39m  })[33m;[39m
+    [90m117| [39m})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/
+2]ΓÄ»[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m   Start at [22m 18:10:21
+[2m   Duration [22m 792ms[2m (transform 273ms, setup 135ms, collect 452ms, tests 61ms, environment 0ms, prepare 12ms)[22m
+
+[1m[41m FAIL [49m[22m [31mTests failed. Watching for file changes...[39m
+       [2mpress [22m[1mh[22m[2m to show help[22m[2m, [22m[2mpress [22m[1mq[22m[2m to quit[22m
+[31mCancelling test run. Press CTRL+c again to exit forcefully.
+[39m
+ΓÇëELIFECYCLEΓÇë Test failed. See above for more details.
