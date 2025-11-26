@@ -76,11 +76,9 @@ export class MockBloomBuddyService {
     };
   }
 
-  async synthesizeConversation(chatHistory: any[]): Promise<{ new_prompt: string }> {
+  async synthesizeConversation(chatHistory: any[]): Promise<string> {
     if (chatHistory.length === 0) {
-      return {
-        new_prompt: 'Start a new conversation',
-      };
+      return 'Start a new conversation';
     }
 
     // Extract topics from conversation
@@ -89,9 +87,7 @@ export class MockBloomBuddyService {
       .map(msg => msg.content)
       .join(', ');
 
-    return {
-      new_prompt: `Continue our discussion about: ${topics.substring(0, 100)}...`,
-    };
+    return `Continue our discussion about: ${topics.substring(0, 100)}...`;
   }
 
   async summarizeChat(chatHistory: any[]): Promise<string> {

@@ -34,7 +34,7 @@ interface Note {
   id: string;
   user_id: string;
   content: string;
-  parent_id?: string;
+  parent_id?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -159,6 +159,7 @@ class InMemoryStore {
   createNote(data: Omit<Note, 'id' | 'created_at' | 'updated_at'>): Note {
     const note: Note = {
       id: uuidv4(),
+      parent_id: null, // Default to null for nullable fields
       ...data,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
